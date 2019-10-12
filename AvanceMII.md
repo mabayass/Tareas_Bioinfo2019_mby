@@ -8,6 +8,8 @@ a distancia.
 
 Durante las primeras semanas del segundo módulo en el curso avanzado de Tópicos computacionales en Genética y Genómica, se ha trabajado
 en la Unidad 2 y 7 del workshop en github asociado a la materia AliciaMstt/BioinfinvRepro. La Unidad 2 da inicio con un tutorial general
-sobre Markdown. 
+sobre Markdown, cuyas aplicaciones se insertan en este avance del módulo II. A continuación se obsrvan imágenes del terminal de GitHub donde se aplican los comandos de distintos tutoriales de la Unidad 2, como lo son Hello-world y An Intro to Git and GitHub for begginers.
+
+
 
 
