@@ -17,7 +17,56 @@ sobre Markdown, cuyas aplicaciones se insertan en este avance del módulo II. La
 
 ***
 
+***
+
+
 ###  <span style="color:red">Expresión Diferencial</span>
 *Unidad 7 “Análisis de Expresión diferencial a partir de secuencias de RNA”*
 
+La Unidad 7 se basa en el análisis bioinformático de expresión diferencial de muestras de secuenciación de RNA con genoma de referencia, el cual permite determinar genes diferencialmente expresados sometidos a diferentes estímulos, permitiendo de esta manera interpretar de manera fácil mediante el análisis de gráficos y tablas. 
+
+Para fines de este práctico, se utilziaron datos de 4 librerías de lecturas de arqueobacterias *Sulfolobus acidocaldarius*, el cual se le realizó un *knockdown* en el gen asociado a la formación de biopelículas. Las muestras fueron sometidas a diferentes ambientes, lo que posteriormente permitió diferenciar las distintas muestras:
+
+* Wild type P
+* Wild type B
+* Mutant P
+* Mutant B
+
+### Pasos tutorial Unidad 7
+
+1. ## <span style="color:blue">Crear variables</span> 
+*Carpetas preexistentes que contienen la ubicación de las carpetas*
+
+RAW=/shared/bioinfo1/common/raw_data/
+ANN=/shared/bioinfo1/common/annot/
+REF=/shared/bioinfo1/common/ref_genome/
+
+2. ## <span style="color:blue">Crear carpetas de salida</span> 
+*Carpetas con rutas donde se almacenará información*
+
+QC=../qc
+FIL=../filtered
+ALN=../alignment
+CNT=../count
+
+3. ## <span style="color:blue">Control de Calidad</span> 
+*Directorios donde se almacena información procesada. Luego se ejecuta el programa IlluQC_PRLL.pl, el cual genera un reporte completo de la calidad de las secuencias. La version PRLL permite ejecutar el comando usando distintos CPU al mismo tiempo. Una vez finalizado el análisis, el programa arroja distintos gráficos que representan la calidad de las lecturas, el contenido GC y otros datos necesarios para el análisis posterior de la secuenciación. 
+
+* Control de Calidad Muestra **Wild Type P**
+        * illuqc -se "$RAW/MW001_P.fastq" 5 A -onlystat -t 2 -o "$QC/wild_planctonic" -c 10 &
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_avgQual.png "Valor promedio de calidad")
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_baseCompostion.png "Composición de Bases")
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_gcDistribution.png "Contenido de GC")
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_qualDistribution.png "Distribución de calidad")
+
+
+illuqc -se "$RAW/MW001_B3.fastq" 5 A -onlystat -t 2 -o "$QC/wild_biofilm" -c 10 &
+illuqc -se "$RAW/0446_P.fastq" 5 A -onlystat -t 2 -o "$QC/mut_planctonic" -c 10 &
+illuqc -se "$RAW/0446_B3.fastq" 5 A -onlystat -t 2 -o "$QC/mut_biofilm" -c 10 &
 
