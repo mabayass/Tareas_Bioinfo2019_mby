@@ -1,8 +1,6 @@
-###  <span style="color:orange">GITHUB</span>
-*Unidad 2 “Organización de un proyecto Bioinformático”*
 
-### GITHUB
-{: .gitlab-orange}
+# GITHUB
+*Unidad 2 “Organización de un proyecto Bioinformático”*
 
 ***
 GitHub es una plataforma informática que permite desarrollar proyectos de códigos fuente mediante un software utilizando el sistema de
@@ -23,7 +21,7 @@ sobre Markdown, cuyas aplicaciones se insertan en este avance del módulo II. La
 ***
 
 
-###  <span style="color:red">Expresión Diferencial</span>
+##  Expresión Diferencial
 *Unidad 7 “Análisis de Expresión diferencial a partir de secuencias de RNA”*
 
 La Unidad 7 se basa en el análisis bioinformático de expresión diferencial de muestras de secuenciación de RNA con genoma de referencia, el cual permite determinar genes diferencialmente expresados sometidos a diferentes estímulos, permitiendo de esta manera interpretar de manera fácil mediante el análisis de gráficos y tablas. 
@@ -37,7 +35,7 @@ Para fines de este práctico, se utilziaron datos de 4 librerías de lecturas de
 
 ### Pasos tutorial Unidad 7
 
-1. ## <span style="color:blue">Crear variables</span> 
+#### 1. Crear variables
 *Carpetas preexistentes que contienen la ubicación de las carpetas*
 
 RAW=/shared/bioinfo1/common/raw_data/
@@ -46,7 +44,7 @@ ANN=/shared/bioinfo1/common/annot/
 
 REF=/shared/bioinfo1/common/ref_genome/
 
-2. ## <span style="color:blue">Crear carpetas de salida</span> 
+#### 2. Crear carpetas de salida 
 *Carpetas con rutas donde se almacenará información*
 
 QC=../qc
@@ -57,8 +55,8 @@ ALN=../alignment
 
 CNT=../count
 
-3. ## <span style="color:blue">Control de Calidad</span> 
-*Directorios donde se almacena información procesada. Luego se ejecuta el programa IlluQC_PRLL.pl, el cual genera un reporte completo de la calidad de las secuencias. La version PRLL permite ejecutar el comando usando distintos CPU al mismo tiempo. Una vez finalizado el análisis, el programa arroja distintos gráficos que representan la calidad de las lecturas, el contenido GC y otros datos necesarios para el análisis posterior de la secuenciación*. 
+#### 3. Control de Calidad 
+*Directorios donde se almacena información procesada. Luego se ejecuta el programa IlluQC_PRLL.pl, el cual genera un reporte completo de la calidad de las secuencias. La version PRLL permite ejecutar el comando usando distintos CPU al mismo tiempo. Una vez finalizado el análisis, el programa arroja distintos gráficos que representan la calidad de las lecturas, el contenido GC y otros datos necesarios para el análisis posterior de la secuenciación.* 
 
 * Control de Calidad Muestra **Wild Type P**
 > illuqc -se "$RAW/MW001_P.fastq" 5 A -onlystat -t 2 -o "wild_planctonic" -c 10 &
@@ -145,6 +143,34 @@ CNT=../count
 ***
 
 
+#### 4. Filtro de secuencias
+*Luego de obtener los resultados del control de calidad de la secuenciación de RNA, las librerías son filtradas con el objetivo de eliminar lecturas con calidad menor de 20% en el 80% de la extensión, cuyos resultados genera librerías de lectura que seran utilizadas en el Alineamiento.*
 
+> Se crea un nuevo directorio _FIL_ con aquellas carpetas donde se almacenarán los resultados del proceso de filtrado. 
+
+* Filtro de secuencias de **Wild Type P**
+> illuqc -se "$RAW/MW001_P.fastq" 5 A -l 80 -s 20 -t 2 -o "wild_planctonic" -c 1 & 
+
+***
+
+
+* Filtro de secuencias de **Wild Type B**
+>illuqc -se "$RAW/MW001_B3.fastq" 5 A -l 80 -s 20 -t 2 -o "wild_biofilm" -c 1
+
+***
+
+* Filtro de secuencias de **Mutant P**
+>illuqc -se "$RAW/0446_P.fastq" 5 A -l 80 -s 20 -t 2 -o "mut_planctonic" -c 1
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/FIL/0446_P.fastq_filtered_QualRangePerBase.png "Cantidad de lecturas por base")
+
+***
+
+
+* Filtro de secuencias de **Mutant B**
+>illuqc -se "$RAW/0446_B3.fastq" 5 A -l 80 -s 20 -t 2 -o "mut_biofilm" -c 1 &
+
+
+***
 
 
