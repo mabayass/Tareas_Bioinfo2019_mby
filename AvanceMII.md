@@ -75,22 +75,7 @@ CNT=../count
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_qualDistribution.png "Distribución de calidad")
 
 
-* Control de Calidad Muestra **Wild Type B**
-> illuqc -se "$RAW/MW001_B3.fastq" 5 A -onlystat -t 2 -o "wild_biofilm" -c 10 &
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
-
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_baseCompostion.png "Composición de Bases")
-
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_gcDistribution.png "Distribución de Contenido de GC")
-
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_qualDistribution.png "Distribución de calidad")
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_summary.png "Resumen de calidad de lecturas")
-
+***
 
 
 * Control de Calidad Muestra **Wild Type B**
@@ -109,6 +94,54 @@ CNT=../count
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_summary.png "Resumen de calidad de lecturas")
 
-illuqc -se "$RAW/0446_P.fastq" 5 A -onlystat -t 2 -o "$QC/mut_planctonic" -c 10 &
-illuqc -se "$RAW/0446_B3.fastq" 5 A -onlystat -t 2 -o "$QC/mut_biofilm" -c 10 &
+
+***
+
+
+* Control de Calidad Muestra **Mutant P**
+> illuqc -se "$RAW/0446_P.fastq" 5 A -onlystat -t 2 -o "mut_planctonic" -c 10 &
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_avgQual.png "Valor promedio de calidad")
+
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_baseCompostion.png "Composición de Bases")
+
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_gcDistribution.png "Distribución de Contenido de GC")
+
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_qualDistribution.png "Distribución de calidad")
+
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_summary.png "Resumen de calidad de lecturas")
+
+
+***
+
+
+* Control de Calidad Muestra **Mutant B**
+> illuqc -se "$RAW/0446_B3.fastq" 5 A -onlystat -t 2 -o "mut_biofilm" -c 10 &
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_B3.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
+
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_B3.fastq_baseCompostion.png "Composición de Bases")
+
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_B3.fastq_gcDistribution.png "Distribución de Contenido de GC")
+
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_B3.fastq_qualDistribution.png "Distribución de calidad")
+
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_B3.fastq_summary.png "Resumen de calidad de lecturas")
+
+
+***
+
+
+
+
 
