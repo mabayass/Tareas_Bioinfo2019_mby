@@ -1,6 +1,9 @@
 ###  <span style="color:orange">GITHUB</span>
 *Unidad 2 “Organización de un proyecto Bioinformático”*
 
+### GITHUB
+{: .gitlab-orange}
+
 ***
 GitHub es una plataforma informática que permite desarrollar proyectos de códigos fuente mediante un software utilizando el sistema de
 control de versiones Git, siendo una de sus mayores ventajas la capacidad de colaboración de diferentes usuarios sobre un mismo proyecto 
@@ -55,7 +58,7 @@ ALN=../alignment
 CNT=../count
 
 3. ## <span style="color:blue">Control de Calidad</span> 
-*Directorios donde se almacena información procesada. Luego se ejecuta el programa IlluQC_PRLL.pl, el cual genera un reporte completo de la calidad de las secuencias. La version PRLL permite ejecutar el comando usando distintos CPU al mismo tiempo. Una vez finalizado el análisis, el programa arroja distintos gráficos que representan la calidad de las lecturas, el contenido GC y otros datos necesarios para el análisis posterior de la secuenciación. 
+*Directorios donde se almacena información procesada. Luego se ejecuta el programa IlluQC_PRLL.pl, el cual genera un reporte completo de la calidad de las secuencias. La version PRLL permite ejecutar el comando usando distintos CPU al mismo tiempo. Una vez finalizado el análisis, el programa arroja distintos gráficos que representan la calidad de las lecturas, el contenido GC y otros datos necesarios para el análisis posterior de la secuenciación*. 
 
 * Control de Calidad Muestra **Wild Type P**
 > illuqc -se "$RAW/MW001_P.fastq" 5 A -onlystat -t 2 -o "wild_planctonic" -c 10 &
