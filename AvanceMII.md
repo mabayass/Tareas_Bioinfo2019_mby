@@ -141,7 +141,7 @@ CNT=../count
 
 
 ***
-
+***
 
 #### 4. Filtro de secuencias
 *Luego de obtener los resultados del control de calidad de la secuenciación de RNA, las librerías son filtradas con el objetivo de eliminar lecturas con calidad menor de 20% en el 80% de la extensión, cuyos resultados genera librerías de lectura que seran utilizadas en el Alineamiento.*
@@ -151,11 +151,15 @@ CNT=../count
 * Filtro de secuencias de **Wild Type P**
 > illuqc -se "$RAW/MW001_P.fastq" 5 A -l 80 -s 20 -t 2 -o "wild_planctonic" -c 1 & 
 
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/FIL/MW001_P.fastq_filtered_QualRangePerBase.png "Cantidad de lecturas por base")
+
 ***
 
 
 * Filtro de secuencias de **Wild Type B**
 >illuqc -se "$RAW/MW001_B3.fastq" 5 A -l 80 -s 20 -t 2 -o "wild_biofilm" -c 1
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/FIL/MW001_B3.fastq_filtered_QualRangePerBase.png "Cantidad de lecturas por base")
 
 ***
 
@@ -170,7 +174,13 @@ CNT=../count
 * Filtro de secuencias de **Mutant B**
 >illuqc -se "$RAW/0446_B3.fastq" 5 A -l 80 -s 20 -t 2 -o "mut_biofilm" -c 1 &
 
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/FIL/0446_B3.fastq_filtered_QualRangePerBase.png "Cantidad de lecturas por base")
 
 ***
+
+
+
+#### 5. Alineamiento
+*A partir de las librerias de lectura producidas en el punto anteior, se procede a hacer un alineamiento .*
 
 
