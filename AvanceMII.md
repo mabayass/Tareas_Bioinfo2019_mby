@@ -196,6 +196,7 @@ CNT=../count
 > bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/mut_biofilm/0446_B3.fastq_filtered" > "ALN/0446_B3_aligned.sam" &**
 
 
+***
 
 
 #### 6. Estimación de la abundancia
