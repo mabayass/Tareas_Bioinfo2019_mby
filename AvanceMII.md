@@ -181,6 +181,34 @@ CNT=../count
 
 
 #### 5. Alineamiento
-*A partir de las librerias de lectura producidas en el punto anteior, se procede a hacer un alineamiento .*
+*A partir de las librerias de lectura producidas en el punto anteior, se procede a hacer un alineamiento de la secuenciación realizada contra la secuencia de referencia. A continuación se muestran los comandos que permitieron el análisis.*
+
+* Muestra Wild Type P 
+> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/wild_planctonic/MW001_P.fastq_filtered" > "ALN/0446_B3_aligned.sam" &**
+
+* Muestra Wild Type B
+> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/wild_biofilm/MW001_B3.fastq_filtered" > "ALN/0446_B3_aligned.sam" &**
+
+* Muestra Mutant P
+> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/mut_planctonic/0446_P.fastq_filtered" > "ALN/0446_B3_aligned.sam" &**
+
+* Muestra Wild Type B
+> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/mut_biofilm/0446_B3.fastq_filtered" > "ALN/0446_B3_aligned.sam" &**
 
 
+
+
+#### 6. Estimación de la abundancia
+*Para poder hacer una estimación de las lecturas mapeadas en cada uno de los genes en el genoma de referencia, se debe instalar un programa llamado HTSeq-Count versión 0.6.1.*
+
++ Instalación de HTSeq-Count versión 0.6.1
+> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **pip install HTseq**
+
++ Uso del comando para estimación de lecturas mapeadas
+> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **python -m HTSeq.scripts.count -t Gene -i GenID "ALN/MW001_P_aligned.sam" "$ANN/saci.gff3" > "CNT/MW001_P.count" &**
+
+> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **python -m HTSeq.scripts.count -t Gene -i GenID "ALN/MW001_B3_aligned.sam" "$ANN/saci.gff3" > "CNT/MW001_B3.count" &**
+
+> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **python -m HTSeq.scripts.count -t Gene -i GenID "ALN/0446_P_aligned.sam" "$ANN/saci.gff3" > "CNT/0446_P.count" &**
+
+> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **python -m HTSeq.scripts.count -t Gene -i GenID "ALN/0446_B3_aligned.sam" "$ANN/saci.gff3" > "CNT/0446_B3.count" &**
