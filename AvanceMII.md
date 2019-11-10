@@ -3,6 +3,7 @@
 *Unidad 2 “Organización de un proyecto Bioinformático”*
 
 ***
+***
 GitHub es una plataforma informática que permite desarrollar proyectos de códigos fuente mediante un software utilizando el sistema de
 control de versiones Git, siendo una de sus mayores ventajas la capacidad de colaboración de diferentes usuarios sobre un mismo proyecto 
 a distancia. 
@@ -24,19 +25,23 @@ sobre Markdown, cuyas aplicaciones se insertan en este avance del módulo II. La
 ##  Expresión Diferencial
 *Unidad 7 “Análisis de Expresión diferencial a partir de secuencias de RNA”*
 
-La Unidad 7 se basa en el análisis bioinformático de expresión diferencial de muestras de secuenciación de RNA con genoma de referencia, el cual permite determinar genes diferencialmente expresados sometidos a diferentes estímulos, permitiendo de esta manera interpretar de manera fácil mediante el análisis de gráficos y tablas. 
+Para fines de La Unidad 7, se desarrolla un análisis bioinformático de expresión diferencial a partir de muestras de *Sulfolobus acidocaldarius* con sacuenciación de RNA, en el cual se compararon muestras mutadas y no mutadas en distintos medios de cultivo, lo que permitió determinar genes diferencialmente expresados producto de los diferentes estímulos al que fueron sometidos durante la experimentación, donde el análisis bioinformático cumple un papel importante en la interpretación de estos datos mediante gráficos y tablas.   
 
-Para fines de este práctico, se utilziaron datos de 4 librerías de lecturas de arqueobacterias *Sulfolobus acidocaldarius*, el cual se le realizó un *knockdown* en el gen asociado a la formación de biopelículas. Las muestras fueron sometidas a diferentes ambientes, lo que posteriormente permitió diferenciar las distintas muestras:
+Para fines de este práctico, se utilziaron datos de 4 librerías de lecturas de arqueobacterias *Sulfolobus acidocaldarius*, organismo con un único cromosoma circular con 2,225,959 pares de bas, con un contenido de G+C de 36.7%. El gen asociado a la formación de biopelículas fue sometido a un *knockdown* para luego ser expuesto a diferentes medios de cultivo y asi poder estudiar los cambios en la expresión génica.
+
+Las muestras fueron identificadas de la siguiente forma:
 
 * Wild type P
 * Wild type B
 * Mutant P
 * Mutant B
 
+A continuación se enumeran los pasos determinados por el tutorial de la Unidad 7 para realizar el análisis de la expresion génica. 
+
 ### Pasos tutorial Unidad 7
 
 #### 1. Crear variables
-*Carpetas preexistentes que contienen la ubicación de las carpetas*
+*Carpetas preexistentes que contienen la ubicación de las carpetas que ya se encuentran creadas dentro del directorio home*
 
 RAW=/shared/bioinfo1/common/raw_data/
 
@@ -45,7 +50,7 @@ ANN=/shared/bioinfo1/common/annot/
 REF=/shared/bioinfo1/common/ref_genome/
 
 #### 2. Crear carpetas de salida 
-*Carpetas con rutas donde se almacenará información*
+*Carpetas con rutas donde se almacenará información, y que permiten guardar textos producto de los análisis bioinformáticos*
 
 QC=../qc
 
