@@ -37,9 +37,9 @@ Las muestras fueron identificadas de la siguiente forma:
 
 A continuación se enumeran los pasos determinados por el tutorial de la Unidad 7 para realizar el análisis de la expresion génica. 
 
-### Pasos tutorial Unidad 7
+## Pasos tutorial Unidad 7
 
-#### 1. Crear variables
+### 1. Crear variables
 *Carpetas preexistentes que contienen la ubicación de las carpetas que ya se encuentran creadas dentro del directorio home*
 
 RAW=/shared/bioinfo1/common/raw_data/
@@ -48,7 +48,9 @@ ANN=/shared/bioinfo1/common/annot/
 
 REF=/shared/bioinfo1/common/ref_genome/
 
-#### 2. Crear carpetas de salida 
+
+
+### 2. Crear carpetas de salida 
 *Carpetas con rutas donde se almacenará información, y que permiten guardar textos producto de los análisis bioinformáticos*
 
 QC=../qc
@@ -59,7 +61,9 @@ ALN=../alignment
 
 CNT=../count
 
-#### 3. Control de Calidad 
+
+
+### 3. Control de Calidad 
 *Directorios donde se almacena información procesada. Luego se ejecuta el programa IlluQC_PRLL.pl, el cual genera un reporte completo de la calidad de las secuencias. La version PRLL permite ejecutar el comando usando distintos CPU al mismo tiempo. Una vez finalizado el análisis, el programa arroja distintos gráficos que representan la calidad de las lecturas, el contenido GC y otros datos necesarios para el análisis posterior de la secuenciación.* 
 
 * Control de Calidad Muestra **Wild Type P**
@@ -190,7 +194,9 @@ Comando ejecutado en Unix
 
 ***
 
-#### 4. Filtro de secuencias
+
+
+### 4. Filtro de secuencias
 *Luego de obtener los resultados del control de calidad de la secuenciación de RNA, las librerías son filtradas con el objetivo de eliminar lecturas con calidad menor de 20% en el 80% de la extensión, cuyos resultados genera librerías de lectura que seran utilizadas en el Alineamiento de las secuencias.*
 
 Se crea un nuevo directorio _FIL_ con aquellas carpetas donde se almacenarán los resultados del proceso de filtrado. 
@@ -230,7 +236,9 @@ Se crea un nuevo directorio _FIL_ con aquellas carpetas donde se almacenarán lo
 ***
 
 
-#### 5. Alineamiento
+
+
+### 5. Alineamiento
 *A partir de las librerias de lectura producidas a partir de la filtración del punto anterior, se procede a hacer un alineamiento de la secuenciación de RNA de las muestras frente al genoma de referencia. A continuación se muestran los comandos que permitieron el análisis.*
 
 * Muestra **Wild Type P 
@@ -256,7 +264,9 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.sam
 ***
 
 
-#### 6. Estimación de la abundancia
+
+
+### 6. Estimación de la abundancia
 *Para poder hacer una estimación de las lecturas mapeadas en cada uno de los genes, se debe instalar un programa llamado HTSeq-Count versión 0.6.1, cuyos archivos emitidos serán utilizados para el análisis de expresión diferencial.*
 
 + Instalación de HTSeq-Count versión 0.6.1 en el directorio code (de acuerdo al tutorial)
@@ -279,10 +289,12 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 ***
 
 
-#### 7. Análisis de Expresión Diferencial
+
+
+### 7. Análisis de Expresión Diferencial
 *El análisis de expresion diferencial es realizado en Rstudio, en el cual se pudo cargar el paquete edgeR exitosamente*
 
-##### Preparación de los datos para el análisis de expresión diferencial
+#### Preparación de los datos para el análisis de expresión diferencial
 + a. Crear directorios para almacenar gráficos y tablas de análisis
 
 > input_dir  <- **file.path("/Users/mjgr1/Documents/Master Genetica/Segundo Semestre/Bioinformatica/Unidad II","ExpDif")**
@@ -347,7 +359,7 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 ***
 
 
-##### Análisis de expresión diferencial por medios de cultivo
+### Análisis de expresión diferencial por medios de cultivo
 
 + a. Crear vector para muestras agrupadas
 > group_culture <- c("planctonic","biofilm","biofilm")
@@ -390,7 +402,7 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 
 
 
-##### Análisis de expresión diferencial por genotipos
+### Análisis de expresión diferencial por genotipos
 Se siguen los pasos que en el punto anterior
 
 + a. Crear un set de data de COUNTS sin genes expresados diferencialmente por medio de cultivo
@@ -439,7 +451,7 @@ Se siguen los pasos que en el punto anterior
 ***
 
 
-##### Generación de resultados
+### Generación de resultados
 
 + a. Establecer vectores Booleans para definir genes con expresion diferencial para ambos factores
 
