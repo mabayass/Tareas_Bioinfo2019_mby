@@ -18,7 +18,6 @@ sobre Markdown, cuyas aplicaciones se insertan en este avance del módulo II. La
 
 
 ***
-
 ***
 
 
@@ -152,6 +151,8 @@ Comando ejecutado en Unix
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_summary.png "Resumen de calidad de lecturas")
 
 ***
+
+
 ##### CONCLUSIÓN
 
 
@@ -281,7 +282,7 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 #### 7. Análisis de Expresión Diferencial
 *El análisis de expresion diferencial es realizado en Rstudio, en el cual se pudo cargar el paquete edgeR exitosamente*
 
-###### Preparación de los datos para el análisis de expresión diferencial
+##### Preparación de los datos para el análisis de expresión diferencial
 + a. Crear directorios para almacenar gráficos y tablas de análisis
 
 > input_dir  <- **file.path("/Users/mjgr1/Documents/Master Genetica/Segundo Semestre/Bioinformatica/Unidad II","ExpDif")**
@@ -289,6 +290,7 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 > output_histogram <- file.path("..","diff_expr", "histograms")
 > output_pvalue_fdr <- file.path("..","diff_expr", "pvalue_fdr")
 > output_table <- file.path("..","diff_expr", "tables")
+
 
 
 + b. Se crean las carpetas de salida luego de comprobar que las carpetas anteriormente creadas existen
@@ -300,8 +302,10 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 > if(!file.exists(output_table)){dir.create(output_table, mode = "0755", recursive=T)}
 
 
+
 + c. Cargar la librería 'edgeR' 
 > library(edgeR)
+
 
 
 + d. Lectura de archivos _count_ obtenidos de Unix
@@ -319,16 +323,20 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 > mut_b <- read.delim(file=file.path(input_dir, "0446_B3.count"), sep="\t", header = F, check=F); dim(mut_b); colnames(mut_b) <- c("Gen_ID", "Count")
 
 
+
 + e. Colapsar los datasets
 > rawcounts2 <- data.frame(wild_p$Gen_ID, WildType_P = wild_p$Count, WildType_B = wild_b$Count, Mutant_B = mut_b$Count, row.names = 1)
+
 
 
 + f. Remover las columnas que no seran usadas en el analisis
 > to_remove <- rownames(rawcounts2) %in% c("__no_feature","__ambiguous","__too_low_aQual","__not_aligned","__alignment_not_unique")
 
 
+
 + g. RPKM (Reads per kilobase per million o Lecturas por kilobase por millon)
 > rpkm <- cpm(rawcounts2)
+
 
 
 + h. Establecer las lecturas que serán utilizadas en el análisis y hacer un filtrado
@@ -338,18 +346,22 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 
 ***
 
-###### Análisis de expresión diferencial por medios de cultivo
+
+##### Análisis de expresión diferencial por medios de cultivo
 
 + a. Crear vector para muestras agrupadas
 > group_culture <- c("planctonic","biofilm","biofilm")
+
 
 
 + b. Crear un objeto DGE (Expresión génica diferencial)
 > dge_culture <- DGEList(counts = rawcounts2, group = group_culture)
 
 
+
 + c. Normalizar factores por tamaño de librería
 > dge_culture <- calcNormFactors(dge_culture)
+
 
 
 + d. Estimar dispersion por muestra y por gen
@@ -357,38 +369,48 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 > dge_culture <- estimateTagwiseDisp(dge_culture)
 
 
+
 + e. Hacer el test Exact, cuyo análisis se basa en asumir conteos de distribución binomial negativa
 > de_culture <- exactTest(dge_culture, pair = c("planctonic","biofilm"))
+
 
 
 + f. Obtener resumen de los resultados
 > results_culture <- topTags(de_culture, n = nrow(dge_culture))
 > results_culture <- results_culture$table
 
+
+
 + g. Obtener ID de genes expresados diferencialmente por medio de cultivo
 > ids_culture <- rownames(results_culture[results_culture$FDR < 0.1,])
+
 
 
 ***
 
 
-###### Análisis de expresión diferencial por genotipos
+
+##### Análisis de expresión diferencial por genotipos
 Se siguen los pasos que en el punto anterior
 
 + a. Crear un set de data de COUNTS sin genes expresados diferencialmente por medio de cultivo
 > rawcounts_genotype <- rawcounts2[!rownames(rawcounts2) %in% ids_culture,]
 
 
+
 + b. Crear un vector por muestras agrupadas
 > group_genotype <- c("wildtype","wildtype","mutant")
+
 
 
 + c. Crear un objeto DGE
 > dge_genotype <- DGEList(counts = rawcounts_genotype, group = group_genotype)
 
 
+
 + d. Normalizar factores por tama;o de libreria
 > dge_genotype <- calcNormFactors(dge_genotype)
+
 
 
 + e. Estimar dispersion por muestra y por gen
@@ -396,8 +418,10 @@ Se siguen los pasos que en el punto anterior
 > dge_genotype <- estimateTagwiseDisp(dge_genotype)
 
 
+
 + f. Hacer el test Exact 
 > de_genotype <- exactTest(dge_genotype, pair = c("wildtype","mutant"))
+
 
 
 + g. Obtener resumen de los resultados
@@ -405,15 +429,17 @@ Se siguen los pasos que en el punto anterior
 > results_genotype <- results_genotype$table
 
 
+
 + h. Obtener genes expresados diferencialmente por medio de cultivo
 > ids_genotype <- rownames(results_genotype)
 > ids_genotype <- ids_genotype[results_genotype$FDR < .1]
 
 
+
 ***
 
 
-###### Generación de resultados
+##### Generación de resultados
 
 + a. Establecer vectores Booleans para definir genes con expresion diferencial para ambos factores
 
@@ -424,16 +450,23 @@ Se siguen los pasos que en el punto anterior
 > de_genes_genotype <- rownames(rawcounts2) %in% ids_genotype
 
 
+
 + b. Obtener los pseudocounts obtenidos del exact test y transformarlos en escala logarítmica
 > pseudocounts <- data.frame(rownames(rawcounts2), WildType_P = log10(dge_culture$pseudo.counts[,1]), WildType_B = log10(dge_culture$pseudo.counts[,2]), Mutant_B = log10(dge_culture$pseudo.counts[,3]), DE_C = de_genes_culture, DE_G = de_genes_genotype, row.names = 1)
 
-_En este paso se resaltan los genes diferencialmente expresados 
+_En este paso se resaltan los genes diferencialmente expresados_ 
+
 
 
 + c. Gráficos y archivos PDF con expresión diferencial según **medios de cultivo
 
+Comando para creación de un documento PDF con gráfico de expresión diferencial entre medios de cultivo
+
 > pdf(file=file.path(output_pseudo,"pair_expression_culture.pdf"), width = 8, height = 4)
 > par(mfrow = c(1,2))
+
+
+Comando para la creación de un gráfico de expresión diferencial entre las dos condiciones de medios de cultivo en las muestras Wild Type
 
 > plot(pseudocounts$WildType_P, pseudocounts$WildType_B, col = ifelse(pseudocounts$DE_C, "red", "blue"), main = "Wild Type", xlab = "Planctonic", ylab = "Biofilm", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 > abline(lsfit(pseudocounts$WildType_P, pseudocounts$WildType_B), col = "black")
@@ -441,20 +474,30 @@ _En este paso se resaltan los genes diferencialmente expresados
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/WT%20ambos%20medios.png "Gráfico WT Medios de cultivo")
 
 
+
 + d. Gráficos y archivos PDF con expresión diferencial según **Genotipo
+
+Comando para creación de un documento PDF con gráfico de expresión diferencial entre genotipos
 
 > pdf(file=file.path(output_pseudo,"pair_expression_genotype.pdf"), width = 8, height = 4)
 > par(mfrow = c(1,2))
+
+
+Comandos para la creación de gráficos de expresión diferencial entre los genotipos y los medios de cultivo
 
 > plot(pseudocounts$WildType_P, pseudocounts$Mutant_B, col = ifelse(pseudocounts$DE_G, "red", "blue"), main = "Planctonic", xlab = "Wild Type", ylab = "Mutant", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 > abline(lsfit(pseudocounts$WildType_P, pseudocounts$Mutant_B), col = "black")
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/con%20abline.png "Gráfico WT-Mut Planctonic")
 
+
+
 > plot(pseudocounts$WildType_B, pseudocounts$Mutant_B, col = ifelse(pseudocounts$DE_G, "red", "blue"), main = "Biofilm", xlab = "Wild Type", ylab = "Mutant", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 > abline(lsfit(pseudocounts$WildType_B, pseudocounts$Mutant_B), col = "black")
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/WTB%20con%20MUTb.png "Gráfico WT-Mut Biofilm")
+
+
 
 > plot(pseudocounts$WildType_P, pseudocounts$WildType_B, col = ifelse(pseudocounts$DE_G, "red", "blue"), main = "WildType", xlab = "Wild Type Planctonic", ylab = " WT BIOFILM", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 > abline(lsfit(pseudocounts$WildType_P, pseudocounts$WildType_B), col = "black")
@@ -462,31 +505,51 @@ _En este paso se resaltan los genes diferencialmente expresados
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/entre%20wt.png "Gráfico Wild Type")
 
 
+
 + e. Creación de Histogramas de los P-values
+
+Comando para creación de un documento PDF con histograma de P-value
 
 > pdf(file=file.path(output_histogram,"histograms_pvalue.pdf"), width = 8, height = 4)
 > par(mfrow = c(1,2))
 
+
+Comandos para la creación de gráficos de histogramas de los genotipos y los medios de cultivo
+
+1. Medios de cultivo 
 > hist(x = results_culture$PValue, col = "skyblue", border = "blue", main = "Culture", xlab = "P-value", ylab = "Frequency", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2)
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/HISTOGRAMA%20MEDIOS.png "Histograma de Medios de Cultivo")
 
+
+2. Genotipos
 > hist(x = results_genotype$PValue, col = "skyblue", border = "blue", main = "Genotype", xlab = "P-value", ylab = "Frequency", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2)
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/histograma%20genotipo.png "Histograma de Genotipo")
 
 
+
 + f. Gráfico de P-value vs FDR
+
+Comando para creación de un documento PDF con gráfico FDR vs P-value
+
 > pdf(file=file.path(output_pvalue_fdr, "pvalue_fdr.pdf"), width = 8, height = 4)
 > par(mfrow = c(1,2))
 
+
+Comandos para la creación de gráficos FDR vs P-value
+
+1. Medios de cultivo
 > plot(results_culture$PValue, results_culture$FDR, col = "blue", main = "Culture", xlab = "P-value", ylab = "FDR", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/FDR%20medios.png "Plot FDR vs P-Value de Medios de Cultivo")
 
+
+2. Genotipo
 > plot(results_genotype$PValue, results_genotype$FDR, col = "blue", main = "Genotype", xlab = "P-value", ylab = "FDR", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/FDR%20genotipos.png "Plot FDR vs P-Value de Genotipo")
+
 
 
 + g. Resumen en Tabla de resultados
@@ -494,6 +557,13 @@ _En este paso se resaltan los genes diferencialmente expresados
 1. Medio de cultivo
 > write.table(x=results_culture, file=file.path(output_table, "table_de_genes_culture.csv"), quote=F, sep="\t", dec=".", row.names=T, col.names=T)
 
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/medio%20de%20cultivo%20excel.png "Imagen Excel Medio de cultivo")
+
+
+
 2. Genotipo
 > write.table(x=results_genotype, file=file.path(output_table, "table_de_genes_genotype.csv"), quote=F, sep="\t", dec=".", row.names=T, col.names=T)
+
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/genotipo%20excel.png "Imagen Excel Genotipo")
 
