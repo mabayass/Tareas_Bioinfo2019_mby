@@ -83,7 +83,7 @@ Comando ejecutado en Unix
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_qualDistribution.png "Distribución de calidad")
 
 
-#####CONCLUSIÓN 
+##### CONCLUSIÓN 
 
 
 ***
@@ -133,7 +133,7 @@ Comando ejecutado en Unix
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_summary.png "Resumen de calidad de lecturas")
 
-#####CONCLUSIÓN
+##### CONCLUSIÓN
 
 ***
 
@@ -157,7 +157,7 @@ Comando ejecutado en Unix
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_B3.fastq_summary.png "Resumen de calidad de lecturas")
 
-#####CONCLUSIÓN
+##### CONCLUSIÓN
 
 
 
@@ -196,11 +196,11 @@ Comando ejecutado en Unix
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/FIL/0446_B3.fastq_filtered_QualRangePerBase.png "Cantidad de lecturas por base")
 
+
+##### CONCLUSIÓN
+
+
 ***
-
-CONCLUSIÓN
-
-
 
 
 #### 5. Alineamiento
@@ -220,21 +220,29 @@ CONCLUSIÓN
 
 A partir de los comandos ejecutados, es posible observar los archivos tipo _.sam_ en la carpeta _ALN_, como se observan a continuación: 
 
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ALN/alineados.png "Screenshot archivos .sam creados")
+
+
+##### Característica de un archivo .sam 
+
 
 ***
 
 
-#### 6. Estimación de la abundancia
-*Para poder hacer una estimación de las lecturas mapeadas en cada uno de los genes en el genoma de referencia, se debe instalar un programa llamado HTSeq-Count versión 0.6.1.*
 
-+ Instalación de HTSeq-Count versión 0.6.1
-> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **pip install HTseq**
+#### 6. Estimación de la abundancia
+*Para poder hacer una estimación de las lecturas mapeadas en cada uno de los genes, se debe instalar un programa llamado HTSeq-Count versión 0.6.1.*
+
++ Instalación de HTSeq-Count versión 0.6.1 en el directorio code (de acuerdo al tutorial)
+> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **pip install HTseq
 
 + Uso del comando para estimación de lecturas mapeadas
-> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **python -m HTSeq.scripts.count -t Gene -i GenID "ALN/MW001_P_aligned.sam" "$ANN/saci.gff3" > "CNT/MW001_P.count" &**
+> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **python -m HTSeq.scripts.count -t Gene -i GenID "ALN/MW001_P_aligned.sam" "$ANN/saci.gff3" > "CNT/MW001_P.count" &
 
 > bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **python -m HTSeq.scripts.count -t Gene -i GenID "ALN/MW001_B3_aligned.sam" "$ANN/saci.gff3" > "CNT/MW001_B3.count" &**
 
 > bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **python -m HTSeq.scripts.count -t Gene -i GenID "ALN/0446_P_aligned.sam" "$ANN/saci.gff3" > "CNT/0446_P.count" &**
 
 > bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **python -m HTSeq.scripts.count -t Gene -i GenID "ALN/0446_B3_aligned.sam" "$ANN/saci.gff3" > "CNT/0446_B3.count" &**
+
+
