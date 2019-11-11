@@ -241,17 +241,19 @@ Se crea un nuevo directorio _FIL_ con aquellas carpetas donde se almacenarán lo
 ### 5. Alineamiento
 *A partir de las librerias de lectura producidas a partir de la filtración del punto anterior, se procede a hacer un alineamiento de la secuenciación de RNA de las muestras frente al genoma de referencia. A continuación se muestran los comandos que permitieron el análisis.*
 
-* Muestra **Wild Type P 
+* Muestra **Wild Type P** 
 > bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/wild_planctonic/MW001_P.fastq_filtered" > "ALN/MW001_P_aligned.sam" &
 
-* Muestra **Wild Type B
+* Muestra **Wild Type B**
 > bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/wild_biofilm/MW001_B3.fastq_filtered" > "ALN/MW001_B3_aligned.sam" &
 
-* Muestra **Mutant P
+* Muestra **Mutant P**
 > bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/mut_planctonic/0446_P.fastq_filtered" > "ALN/0446_P_aligned.sam" &
 
-* Muestra **Mutant B
+* Muestra **Mutant B**
 > bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/mut_biofilm/0446_B3.fastq_filtered" > "ALN/0446_B3_aligned.sam" &
+
+
 
 A partir de los comandos ejecutados, es posible observar los archivos tipo _.sam_ en la carpeta _ALN_, a continuación: 
 
@@ -269,6 +271,7 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.sam
 ### 6. Estimación de la abundancia
 *Para poder hacer una estimación de las lecturas mapeadas en cada uno de los genes, se debe instalar un programa llamado HTSeq-Count versión 0.6.1, cuyos archivos emitidos serán utilizados para el análisis de expresión diferencial.*
 
+
 + Instalación de HTSeq-Count versión 0.6.1 en el directorio code (de acuerdo al tutorial)
 > bioinfo1@genoma1:~/mbarreto/TareaU7/code$ pip install HTseq
 
@@ -280,6 +283,7 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.sam
 > bioinfo1@genoma1:~/mbarreto/TareaU7/code$ python -m HTSeq.scripts.count -t Gene -i GenID "ALN/0446_P_aligned.sam" "$ANN/saci.gff3" > "CNT/0446_P.count" &
 
 > bioinfo1@genoma1:~/mbarreto/TareaU7/code$ python -m HTSeq.scripts.count -t Gene -i GenID "ALN/0446_B3_aligned.sam" "$ANN/saci.gff3" > "CNT/0446_B3.count" &
+
 
 
 A partir de los comandos ejecutados, es posible observar los archivos tipo _.count_ en la carpeta _CNT_ a continuación:
@@ -455,10 +459,10 @@ Se siguen los pasos que en el punto anterior
 
 + a. Establecer vectores Booleans para definir genes con expresion diferencial para ambos factores
 
-1. Medio de cultivo
+**1. Medio de cultivo**
 > de_genes_culture <- rownames(rawcounts2) %in% ids_culture
 
-2. Genotipo
+**2. Genotipo**
 > de_genes_genotype <- rownames(rawcounts2) %in% ids_genotype
 
 
@@ -472,13 +476,13 @@ _En este paso se resaltan los genes diferencialmente expresados_
 
 + c. Gráficos y archivos PDF con expresión diferencial según **medios de cultivo
 
-Comando para creación de un documento PDF con gráfico de expresión diferencial entre medios de cultivo
+_Comando para creación de un documento PDF con gráfico de expresión diferencial entre medios de cultivo_
 
 > pdf(file=file.path(output_pseudo,"pair_expression_culture.pdf"), width = 8, height = 4)
 > par(mfrow = c(1,2))
 
 
-Comando para la creación de un gráfico de expresión diferencial entre las dos condiciones de medios de cultivo en las muestras Wild Type
+_Comando para la creación de un gráfico de expresión diferencial entre las dos condiciones de medios de cultivo en las muestras Wild Type_
 
 > plot(pseudocounts$WildType_P, pseudocounts$WildType_B, col = ifelse(pseudocounts$DE_C, "red", "blue"), main = "Wild Type", xlab = "Planctonic", ylab = "Biofilm", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 > abline(lsfit(pseudocounts$WildType_P, pseudocounts$WildType_B), col = "black")
@@ -489,13 +493,13 @@ Comando para la creación de un gráfico de expresión diferencial entre las dos
 
 + d. Gráficos y archivos PDF con expresión diferencial según **Genotipo
 
-Comando para creación de un documento PDF con gráfico de expresión diferencial entre genotipos
+_Comando para creación de un documento PDF con gráfico de expresión diferencial entre genotipos_
 
 > pdf(file=file.path(output_pseudo,"pair_expression_genotype.pdf"), width = 8, height = 4)
 > par(mfrow = c(1,2))
 
 
-Comandos para la creación de gráficos de expresión diferencial entre los genotipos y los medios de cultivo
+_Comandos para la creación de gráficos de expresión diferencial entre los genotipos y los medios de cultivo_
 
 > plot(pseudocounts$WildType_P, pseudocounts$Mutant_B, col = ifelse(pseudocounts$DE_G, "red", "blue"), main = "Planctonic", xlab = "Wild Type", ylab = "Mutant", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 > abline(lsfit(pseudocounts$WildType_P, pseudocounts$Mutant_B), col = "black")
@@ -520,21 +524,21 @@ Comandos para la creación de gráficos de expresión diferencial entre los geno
 
 + e. Creación de Histogramas de los P-values
 
-Comando para creación de un documento PDF con histograma de P-value
+_Comando para creación de un documento PDF con histograma de P-value_
 
 > pdf(file=file.path(output_histogram,"histograms_pvalue.pdf"), width = 8, height = 4)
 > par(mfrow = c(1,2))
 
 
-Comandos para la creación de gráficos de histogramas de los genotipos y los medios de cultivo
+_Comandos para la creación de gráficos de histogramas de los genotipos y los medios de cultivo_
 
-1. Medios de cultivo 
+**1. Medios de cultivo** 
 > hist(x = results_culture$PValue, col = "skyblue", border = "blue", main = "Culture", xlab = "P-value", ylab = "Frequency", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2)
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/HISTOGRAMA%20MEDIOS.png "Histograma de Medios de Cultivo")
 
 
-2. Genotipos
+**2. Genotipos**
 > hist(x = results_genotype$PValue, col = "skyblue", border = "blue", main = "Genotype", xlab = "P-value", ylab = "Frequency", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2)
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/histograma%20genotipo.png "Histograma de Genotipo")
@@ -543,21 +547,21 @@ Comandos para la creación de gráficos de histogramas de los genotipos y los me
 
 + f. Gráfico de P-value vs FDR
 
-Comando para creación de un documento PDF con gráfico FDR vs P-value
+_Comando para creación de un documento PDF con gráfico FDR vs P-value_
 
 > pdf(file=file.path(output_pvalue_fdr, "pvalue_fdr.pdf"), width = 8, height = 4)
 > par(mfrow = c(1,2))
 
 
-Comandos para la creación de gráficos FDR vs P-value
+_Comandos para la creación de gráficos FDR vs P-value_
 
-1. Medios de cultivo
+**1. Medios de cultivo**
 > plot(results_culture$PValue, results_culture$FDR, col = "blue", main = "Culture", xlab = "P-value", ylab = "FDR", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/FDR%20medios.png "Plot FDR vs P-Value de Medios de Cultivo")
 
 
-2. Genotipo
+**2. Genotipo**
 > plot(results_genotype$PValue, results_genotype$FDR, col = "blue", main = "Genotype", xlab = "P-value", ylab = "FDR", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/FDR%20genotipos.png "Plot FDR vs P-Value de Genotipo")
@@ -566,14 +570,13 @@ Comandos para la creación de gráficos FDR vs P-value
 
 + g. Resumen en Tabla de resultados
 
-1. Medio de cultivo
+**1. Medio de cultivo**
 > write.table(x=results_culture, file=file.path(output_table, "table_de_genes_culture.csv"), quote=F, sep="\t", dec=".", row.names=T, col.names=T)
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/medio%20de%20cultivo%20excel.png "Imagen Excel Medio de cultivo")
 
 
-
-2. Genotipo
+**2. Genotipo**
 > write.table(x=results_genotype, file=file.path(output_table, "table_de_genes_genotype.csv"), quote=F, sep="\t", dec=".", row.names=T, col.names=T)
 
 
