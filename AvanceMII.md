@@ -1,6 +1,6 @@
 
 # GITHUB
-*Unidad 2 “Organización de un proyecto Bioinformático”*
+## *Unidad 2 “Organización de un proyecto Bioinformático”*
 
 ***
 ***
@@ -22,10 +22,10 @@ sobre Markdown, cuyas aplicaciones se insertan en este avance del módulo II. La
 ***
 
 
-##  Expresión Diferencial
-*Unidad 7 “Análisis de Expresión diferencial a partir de secuencias de RNA”*
+# Expresión Diferencial
+## *Unidad 7 “Análisis de Expresión diferencial a partir de secuencias de RNA”*
 
-Para fines de La Unidad 7, se desarrolla un análisis bioinformático de expresión diferencial a partir de muestras de *Sulfolobus acidocaldarius* con sacuenciación de RNA, en el cual se compararon muestras mutadas y no mutadas en distintos medios de cultivo, lo que permitió determinar genes diferencialmente expresados producto de los diferentes estímulos al que fueron sometidos durante la experimentación, donde el análisis bioinformático cumple un papel importante en la interpretación de estos datos mediante gráficos y tablas.   
+Se desarrolla un análisis bioinformático de expresión diferencial a partir de muestras de *Sulfolobus acidocaldarius* con sacuenciación de RNA, en el cual se compararon muestras mutadas y no mutadas en distintos medios de cultivo, lo que permitió determinar genes diferencialmente expresados producto de los diferentes estímulos al que fueron sometidos durante la experimentación, donde el análisis bioinformático cumple un papel importante en la interpretación de estos datos mediante gráficos y tablas.   
 
 Para fines de este práctico, se utilziaron datos de 4 librerías de lecturas de arqueobacterias *Sulfolobus acidocaldarius*, organismo con un único cromosoma circular con 2,225,959 pares de bas, con un contenido de G+C de 36.7%. El gen asociado a la formación de biopelículas fue sometido a un *knockdown* para luego ser expuesto a diferentes medios de cultivo y asi poder estudiar los cambios en la expresión génica.
 
@@ -64,6 +64,8 @@ CNT=../count
 *Directorios donde se almacena información procesada. Luego se ejecuta el programa IlluQC_PRLL.pl, el cual genera un reporte completo de la calidad de las secuencias. La version PRLL permite ejecutar el comando usando distintos CPU al mismo tiempo. Una vez finalizado el análisis, el programa arroja distintos gráficos que representan la calidad de las lecturas, el contenido GC y otros datos necesarios para el análisis posterior de la secuenciación.* 
 
 * Control de Calidad Muestra **Wild Type P**
+
+Comando ejecutado en Unix
 > illuqc -se "$RAW/MW001_P.fastq" 5 A -onlystat -t 2 -o "wild_planctonic" -c 10 &
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
@@ -81,10 +83,15 @@ CNT=../count
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_qualDistribution.png "Distribución de calidad")
 
 
+#####CONCLUSIÓN 
+
+
 ***
 
 
 * Control de Calidad Muestra **Wild Type B**
+
+Comando ejecutado en Unix
 > illuqc -se "$RAW/MW001_B3.fastq" 5 A -onlystat -t 2 -o "wild_biofilm" -c 10 &
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
@@ -100,11 +107,14 @@ CNT=../count
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_summary.png "Resumen de calidad de lecturas")
 
+#####CONCLUSIÓN
 
 ***
 
 
 * Control de Calidad Muestra **Mutant P**
+
+Comando ejecutado en Unix
 > illuqc -se "$RAW/0446_P.fastq" 5 A -onlystat -t 2 -o "mut_planctonic" -c 10 &
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
@@ -123,11 +133,14 @@ CNT=../count
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_summary.png "Resumen de calidad de lecturas")
 
+#####CONCLUSIÓN
 
 ***
 
 
 * Control de Calidad Muestra **Mutant B**
+
+Comando ejecutado en Unix
 > illuqc -se "$RAW/0446_B3.fastq" 5 A -onlystat -t 2 -o "mut_biofilm" -c 10 &
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_B3.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
@@ -144,12 +157,14 @@ CNT=../count
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_B3.fastq_summary.png "Resumen de calidad de lecturas")
 
+#####CONCLUSIÓN
 
-***
+
+
 ***
 
 #### 4. Filtro de secuencias
-*Luego de obtener los resultados del control de calidad de la secuenciación de RNA, las librerías son filtradas con el objetivo de eliminar lecturas con calidad menor de 20% en el 80% de la extensión, cuyos resultados genera librerías de lectura que seran utilizadas en el Alineamiento.*
+*Luego de obtener los resultados del control de calidad de la secuenciación de RNA, las librerías son filtradas con el objetivo de eliminar lecturas con calidad menor de 20% en el 80% de la extensión, cuyos resultados genera librerías de lectura que seran utilizadas en el Alineamiento de las secuencias.*
 
 > Se crea un nuevo directorio _FIL_ con aquellas carpetas donde se almacenarán los resultados del proceso de filtrado. 
 
@@ -183,22 +198,27 @@ CNT=../count
 
 ***
 
+CONCLUSIÓN
+
+
 
 
 #### 5. Alineamiento
-*A partir de las librerias de lectura producidas en el punto anteior, se procede a hacer un alineamiento de la secuenciación realizada contra la secuencia de referencia. A continuación se muestran los comandos que permitieron el análisis.*
+*A partir de las librerias de lectura producidas a partir de la filtración del punto anterior, se procede a hacer un alineamiento de la secuenciación de RNA de las muestras frente al genoma de referencia. A continuación se muestran los comandos que permitieron el análisis.*
 
 * Muestra Wild Type P 
-> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/wild_planctonic/MW001_P.fastq_filtered" > "ALN/0446_B3_aligned.sam" &**
+> bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/wild_planctonic/MW001_P.fastq_filtered" > "ALN/MW001_P_aligned.sam" &
 
 * Muestra Wild Type B
-> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/wild_biofilm/MW001_B3.fastq_filtered" > "ALN/0446_B3_aligned.sam" &**
+> bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/wild_biofilm/MW001_B3.fastq_filtered" > "ALN/MW001_B3_aligned.sam" &
 
 * Muestra Mutant P
-> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/mut_planctonic/0446_P.fastq_filtered" > "ALN/0446_B3_aligned.sam" &**
+> bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/mut_planctonic/0446_P.fastq_filtered" > "ALN/0446_P_aligned.sam" &
 
 * Muestra Wild Type B
-> bioinfo1@genoma1:~/mbarreto/TareaU7/code$ **bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/mut_biofilm/0446_B3.fastq_filtered" > "ALN/0446_B3_aligned.sam" &**
+> bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/mut_biofilm/0446_B3.fastq_filtered" > "ALN/0446_B3_aligned.sam" &
+
+A partir de los comandos ejecutados, es posible observar los archivos tipo _.sam_ en la carpeta _ALN_, como se observan a continuación: 
 
 
 ***
