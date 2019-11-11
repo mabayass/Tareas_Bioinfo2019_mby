@@ -405,7 +405,7 @@ de_genes_culture <- rownames(rawcounts2) %in% ids_culture
 de_genes_genotype <- rownames(rawcounts2) %in% ids_genotype
 
 
-+ b. Obtener los pseudocounts obtenidos del exact test y transformarlos en escala logaritmica
++ b. Obtener los pseudocounts obtenidos del exact test y transformarlos en escala logarítmica
 pseudocounts <- data.frame(rownames(rawcounts2), WildType_P = log10(dge_culture$pseudo.counts[,1]), WildType_B = log10(dge_culture$pseudo.counts[,2]), Mutant_B = log10(dge_culture$pseudo.counts[,3]), DE_C = de_genes_culture, DE_G = de_genes_genotype, row.names = 1)
 
 En este paso se resaltan los genes diferencialmente expresados 
@@ -419,8 +419,7 @@ par(mfrow = c(1,2))
 plot(pseudocounts$WildType_P, pseudocounts$WildType_B, col = ifelse(pseudocounts$DE_C, "red", "blue"), main = "Wild Type", xlab = "Planctonic", ylab = "Biofilm", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 abline(lsfit(pseudocounts$WildType_P, pseudocounts$WildType_B), col = "black")
 
-plot(pseudocounts$Mutant_P, pseudocounts$Mutant_B, col = ifelse(pseudocounts$DE_C, "red", "blue"), main = "Mutant", xlab = "Planctonic", ylab =  "Biofilm", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
-abline(lsfit(pseudocounts$Mutant_P, pseudocounts$Mutant_B), col = "black")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/WT%20ambos%20medios.png "Gráfico WT Medios de cultivo")
 
 
 + d. Gráficos y archivos PDF con expresión diferencial según **Genotipo
@@ -431,11 +430,17 @@ par(mfrow = c(1,2))
 plot(pseudocounts$WildType_P, pseudocounts$Mutant_B, col = ifelse(pseudocounts$DE_G, "red", "blue"), main = "Planctonic", xlab = "Wild Type", ylab = "Mutant", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 abline(lsfit(pseudocounts$WildType_P, pseudocounts$Mutant_B), col = "black")
 
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/con%20abline.png "Gráfico WT-Mut Planctonic")
+
 plot(pseudocounts$WildType_B, pseudocounts$Mutant_B, col = ifelse(pseudocounts$DE_G, "red", "blue"), main = "Biofilm", xlab = "Wild Type", ylab = "Mutant", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 abline(lsfit(pseudocounts$WildType_B, pseudocounts$Mutant_B), col = "black")
 
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/WTB%20con%20MUTb.png "Gráfico WT-Mut Biofilm")
+
 plot(pseudocounts$WildType_P, pseudocounts$WildType_B, col = ifelse(pseudocounts$DE_G, "red", "blue"), main = "WildType", xlab = "Wild Type Planctonic", ylab = " WT BIOFILM", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 abline(lsfit(pseudocounts$WildType_P, pseudocounts$WildType_B), col = "black")
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/entre%20wt.png "Gráfico Wild Type")
 
 
 + e. Creación de Histogramas de los P-values
@@ -445,7 +450,11 @@ par(mfrow = c(1,2))
 
 hist(x = results_culture$PValue, col = "skyblue", border = "blue", main = "Culture", xlab = "P-value", ylab = "Frequency", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2)
 
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/HISTOGRAMA%20MEDIOS.png "Histograma de Medios de Cultivo")
+
 hist(x = results_genotype$PValue, col = "skyblue", border = "blue", main = "Genotype", xlab = "P-value", ylab = "Frequency", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2)
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/histograma%20genotipo.png "Histograma de Genotipo")
 
 
 + f. Gráfico de P-value vs FDR
@@ -454,7 +463,11 @@ par(mfrow = c(1,2))
 
 plot(results_culture$PValue, results_culture$FDR, col = "blue", main = "Culture", xlab = "P-value", ylab = "FDR", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/FDR%20medios.png "Plot FDR vs P-Value de Medios de Cultivo")
+
 plot(results_genotype$PValue, results_genotype$FDR, col = "blue", main = "Genotype", xlab = "P-value", ylab = "FDR", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
+
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/FDR%20genotipos.png "Plot FDR vs P-Value de Genotipo")
 
 
 + g. Resumen en Tabla de resultados
