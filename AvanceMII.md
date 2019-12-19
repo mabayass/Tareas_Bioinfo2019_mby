@@ -553,12 +553,21 @@ El estadístico FDR (False Discovery Rate) determina aquellos falsos positivos d
 **1. Medio de cultivo**
 > write.table(x=results_culture, file=file.path(output_table, "table_de_genes_culture.csv"), quote=F, sep="\t", dec=".", row.names=T, col.names=T)
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/medio%20de%20cultivo%20excel.png "Imagen Excel Medio de cultivo")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/tabla%20medios.png "Imagen Excel Medio de cultivo")
 
 
 **2. Genotipo**
 > write.table(x=results_genotype, file=file.path(output_table, "table_de_genes_genotype.csv"), quote=F, sep="\t", dec=".", row.names=T, col.names=T)
 
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/genotipo%20excel.png "Imagen Excel Genotipo")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/tabla%20genotipo.png "Imagen Excel Genotipo")
 
+
+***
+***
+
+##Conclusión 
+
+El análisis de expresión diferencial permitió, en primer lugar, concluir que 165 genes presentaron una expresión distinta a la basal cuando se somete la archea _Sulfolobus acidocaldarius_ a diferentes condiciones ambientales, sea este un medio plantónico, donde las arqueas flotan libre en eun medio acuoso, o sea un medio biofilm donde gracias a un sustrato, estos microorganismos puedan adherirse y ensamblarse en una estructura que permite formar la biopelícula. Por otro lado, solo un gen, el gen Saci_1295, presentó una expresion diferencial cuando se compararon los genotipos en cada condicion. Esto implica que la mutacion en el gen Lrs14-like, pudiese estar regulando otras vías que no implica respuestas a cambios ambientales, dado que bajo la condición mutada no hubo respuestas diferenciales significativas. 
+
+El proseguir del estudio pudiese direccionarse a realizar réplicas del experimento con el fin de reproducir los resultados y verificar que en efecto se obtienen resultados fieles o a definir por ejemplo, experimentos que impliquen aquellos genes diferenciados en los medios de cultivo para identificar con mayor precision aquelas vías de expresión génica implicada en el metabolismo de las archeas frente a estímulos ambientales. 
