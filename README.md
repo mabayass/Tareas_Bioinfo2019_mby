@@ -3,10 +3,8 @@ Ejercicio tutorial BioinfinvRepro
 
 ***
 
-Este **Repo** tiene la finalidad de cumplir con los ejercicios propuestos en la Unidad 2 de _BioinfinvRepro_ respecto al uso de GitHub. 
+Este **Repo** tiene la finalidad de cumplir con los ejercicios propuestos en la Unidad 2 de _BioinfinvRepro_ respecto al uso de GitHub. Y llevar a cabo un informe sobre el análisis de expresión diferencial sugerido en la Unidad 7
 
 ***
 
-Hello-world tutorial. Insertar un commit dentro del readme para modificar un branch distinto del master
 
-***
