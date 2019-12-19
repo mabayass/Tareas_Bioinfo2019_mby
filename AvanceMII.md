@@ -24,9 +24,10 @@ sobre Markdown, cuyas aplicaciones se insertan en este avance del módulo II. La
 # Expresión Diferencial
 ## *Unidad 7 “Análisis de Expresión diferencial a partir de secuencias de RNA”*
 
-Se desarrolla un análisis bioinformático de expresión diferencial a partir de muestras de *Sulfolobus acidocaldarius* con sacuenciación de RNA, en el cual se compararon muestras mutadas y no mutadas en distintos medios de cultivo, lo que permitió determinar genes diferencialmente expresados producto de los diferentes estímulos al que fueron sometidos durante la experimentación, donde el análisis bioinformático cumple un papel importante en la interpretación de estos datos mediante gráficos y tablas.   
+Se desarrolla un análisis bioinformático de expresión diferencial a partir de muestras de *Sulfolobus acidocaldarius* con secuenciación de RNA con HiSeq 2500, en el cual se compararon muestras mutadas y no mutadas en distintos medios de cultivo, lo que permitió determinar genes diferencialmente expresados producto de los diferentes estímulos al que fueron sometidos durante la experimentación, donde el análisis bioinformático cumple un papel importante en la interpretación de estos datos mediante gráficos y tablas.   
 
-Para fines de este práctico, se utilziaron datos de 4 librerías de lecturas de arqueobacterias *Sulfolobus acidocaldarius*, organismo con un único cromosoma circular con 2,225,959 pares de bas, con un contenido de G+C de 36.7%. El gen asociado a la formación de biopelículas fue sometido a un *knockdown* para luego ser expuesto a diferentes medios de cultivo y asi poder estudiar los cambios en la expresión génica.
+Para fines de este práctico, se utilziaron datos de 4 librerías de lecturas de arqueobacterias *Sulfolobus acidocaldarius*, organismo con un único cromosoma circular con 2,225,959 pares de bas, con un contenido de G+C de 36.7%. El gen Lrs14-like, asociado a la formación de biopelículas fue sometido a un *knockdown* para luego exponer los diferentes genotipos a diferentes medios de cultivo y asi poder estudiar los cambios en la expresión génica.
+
 
 Las muestras fueron identificadas de la siguiente forma:
 
@@ -90,9 +91,6 @@ Comando ejecutado en Unix
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_qualDistribution.png "Distribución de calidad")
 
 
-##### CONCLUSIÓN 
-
-
 ***
 
 
@@ -118,10 +116,6 @@ Comando ejecutado en Unix
 ***
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_summary.png "Resumen de calidad de lecturas")
-
-***
-
-##### CONCLUSIÓN
 
 
 ***
@@ -154,11 +148,6 @@ Comando ejecutado en Unix
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_summary.png "Resumen de calidad de lecturas")
 
-***
-
-
-##### CONCLUSIÓN
-
 
 ***
 
@@ -190,14 +179,15 @@ Comando ejecutado en Unix
 
 ##### CONCLUSIÓN
 
+Todas las muestras genotípicas bajo las distintas condiciones presentan una secuenciación que cumple con los parámetros de calidad. Para el caso del Quality score range vemos que se encuentran dentro del Q30, el cual significa que la probabilidad de que la identificación de casa base secuenciada presente un error de 1 en 1000, el cual cumple con lo establecido para la secuenciación con HiSeq 2500. Tanto el porcentaje de las bases nucleotídicas como la distribucion de CG cumple con lo esperado para muestras de RNA en _archeas_. 
 
 
 ***
-
+***
 
 
 ### 4. Filtro de secuencias
-*Luego de obtener los resultados del control de calidad de la secuenciación de RNA, las librerías son filtradas con el objetivo de eliminar lecturas con calidad menor de 20% en el 80% de la extensión, cuyos resultados genera librerías de lectura que seran utilizadas en el Alineamiento de las secuencias.*
+*Luego de obtener los resultados del control de calidad de la secuenciación de RNA, las librerías son filtradas con el objetivo de eliminar lecturas con calidad menor de 20 (Q20) en el 80% de la extensión, cuyos resultados genera librerías de lectura que seran utilizadas en el Alineamiento de las secuencias.*
 
 Se crea un nuevo directorio _FIL_ con aquellas carpetas donde se almacenarán los resultados del proceso de filtrado. 
 
@@ -228,18 +218,23 @@ Se crea un nuevo directorio _FIL_ con aquellas carpetas donde se almacenarán lo
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/FIL/0446_B3.fastq_filtered_QualRangePerBase.png "Cantidad de lecturas por base")
 
-***
 
 ##### CONCLUSIÓN
 
+Se obtiene una filtración exitosa que genera archivos que permiten alineas las muestras con el genoma de referencia. 
 
+
+***
 ***
 
 
-
-
 ### 5. Alineamiento
-*A partir de las librerias de lectura producidas a partir de la filtración del punto anterior, se procede a hacer un alineamiento de la secuenciación de RNA de las muestras frente al genoma de referencia. A continuación se muestran los comandos que permitieron el análisis.*
+*A partir de las librerias de lectura producidas a partir de la filtración del punto anterior, se procede a hacer un alineamiento de la secuenciación de RNA de las muestras frente al genoma de referencia. A continuación se muestran los comandos que permitieron el análisis. En este caso, se utiliza el comando bwa (Burrow Wheelers Aligment) dado que permite tomar el genoma de referencia y alinearlo correctamente con las muestras en estudio. Sin embargo, existen otros comandos como bowtie2 que ejecuta la misma acción generando archivos tipo .sam para el paso siguiente que sería la estimación de la abundancia.*
+
+*Los archivos .sam consiste en archivos de texto delimitados con tabs con información general tanto de la secuenciación como del alineamiento que presenta 11 campos obligatorios y otros opcionales, donde cada renglón de la sección de alineamientos corresponde a un segmento de lectura de cada fragmento introducido en el secuenciador.*
+
+
+Los comandos llevados a cabo para el alineamiento:
 
 * Muestra **Wild Type P** 
 > bwa078 mem "$REF/genome.fasta" -t 1 "QC/FIL/wild_planctonic/MW001_P.fastq_filtered" > "ALN/MW001_P_aligned.sam" &
@@ -260,16 +255,13 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.sam
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ALN/alineados.png "Screenshot archivos .sam creados")
 
 
-##### Característica de un archivo .sam 
-
-
+***
 ***
 
 
 
-
 ### 6. Estimación de la abundancia
-*Para poder hacer una estimación de las lecturas mapeadas en cada uno de los genes, se debe instalar un programa llamado HTSeq-Count versión 0.6.1, cuyos archivos emitidos serán utilizados para el análisis de expresión diferencial.*
+*Para poder hacer una estimación de las lecturas mapeadas en cada uno de los genes, se debe instalar un programa llamado HTSeq-Count versión 0.6.1, cuyos archivos emitidos serán utilizados para el análisis de expresión diferencial. Este análisis se realiza a partir del archivo .sam emitido en el paso anterior donde una vez ejecutado el comando, te arroja un archivo .count que permite hacer posteriormente el análisis de expresión diferencial, siendo la estimación de la abundancia el último paso de importancia durante el análisis de control de calidad de la secuenciación.*
 
 
 + Instalación de HTSeq-Count versión 0.6.1 en el directorio code (de acuerdo al tutorial)
@@ -291,7 +283,7 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 
 
 ***
-
+***
 
 
 
@@ -307,7 +299,7 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 > output_pvalue_fdr <- file.path("..","diff_expr", "pvalue_fdr")
 > output_table <- file.path("..","diff_expr", "tables")
 
-
+Con los comandos mencionados se establece la carpeta donde estan los archivos count emitidos en la estimacion de la abundancia y se crean directorios para crear carpetas de salida donde serán almacenados los gráficos del análisis. 
 
 + b. Se crean las carpetas de salida luego de comprobar que las carpetas anteriormente creadas existen
 
@@ -317,14 +309,13 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 > if(!file.exists(output_pvalue_fdr)){dir.create(output_pvalue_fdr, mode = "0755", recursive=T)}
 > if(!file.exists(output_table)){dir.create(output_table, mode = "0755", recursive=T)}
 
-
+Con los comandos if! se ejecuta una verificación de creación de directorios y se crean entonces las carpetas de salida. 
 
 + c. Cargar la librería 'edgeR' 
 > library(edgeR)
 
 
-
-+ d. Lectura de archivos _count_ obtenidos de Unix
++ d. Lectura de archivos _count_ obtenidos de Linux en el paso del Control de Calidad.
 
 **Wild type planctonic**
 > wild_p <- read.delim(file=file.path(input_dir, "MW001_P.count"), sep="\t", header = F, check=F); dim(wild_p);colnames(wild_p) <- c("Gen_ID", "Count")
@@ -344,15 +335,12 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 > rawcounts2 <- data.frame(wild_p$Gen_ID, WildType_P = wild_p$Count, WildType_B = wild_b$Count, Mutant_B = mut_b$Count, row.names = 1)
 
 
-
 + f. Remover las columnas que no seran usadas en el analisis
 > to_remove <- rownames(rawcounts2) %in% c("__no_feature","__ambiguous","__too_low_aQual","__not_aligned","__alignment_not_unique")
 
 
-
 + g. RPKM (Reads per kilobase per million o Lecturas por kilobase por millon)
 > rpkm <- cpm(rawcounts2)
-
 
 
 + h. Establecer las lecturas que serán utilizadas en el análisis y hacer un filtrado
@@ -369,15 +357,12 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 > group_culture <- c("planctonic","biofilm","biofilm")
 
 
-
 + b. Crear un objeto DGE (Expresión génica diferencial)
 > dge_culture <- DGEList(counts = rawcounts2, group = group_culture)
 
 
-
 + c. Normalizar factores por tamaño de librería
 > dge_culture <- calcNormFactors(dge_culture)
-
 
 
 + d. Estimar dispersion por muestra y por gen
@@ -385,10 +370,8 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 > dge_culture <- estimateTagwiseDisp(dge_culture)
 
 
-
 + e. Hacer el test Exact, cuyo análisis se basa en asumir conteos de distribución binomial negativa
 > de_culture <- exactTest(dge_culture, pair = c("planctonic","biofilm"))
-
 
 
 + f. Obtener resumen de los resultados
@@ -396,11 +379,11 @@ A partir de los comandos ejecutados, es posible observar los archivos tipo _.cou
 > results_culture <- results_culture$table
 
 
-
 + g. Obtener ID de genes expresados diferencialmente por medio de cultivo
 > ids_culture <- rownames(results_culture[results_culture$FDR < 0.1,])
 
 
+En este paso se lleva a cabo el análisis de expresión diferencial pero es posteriormente que se ejecutan los comandos para hacer gráficos y tablas para poder visualizar los datos
 
 ***
 
@@ -413,20 +396,16 @@ Se siguen los pasos que en el punto anterior
 > rawcounts_genotype <- rawcounts2[!rownames(rawcounts2) %in% ids_culture,]
 
 
-
 + b. Crear un vector por muestras agrupadas
 > group_genotype <- c("wildtype","wildtype","mutant")
-
 
 
 + c. Crear un objeto DGE
 > dge_genotype <- DGEList(counts = rawcounts_genotype, group = group_genotype)
 
 
-
 + d. Normalizar factores por tama;o de libreria
 > dge_genotype <- calcNormFactors(dge_genotype)
-
 
 
 + e. Estimar dispersion por muestra y por gen
@@ -434,10 +413,8 @@ Se siguen los pasos que en el punto anterior
 > dge_genotype <- estimateTagwiseDisp(dge_genotype)
 
 
-
 + f. Hacer el test Exact 
 > de_genotype <- exactTest(dge_genotype, pair = c("wildtype","mutant"))
-
 
 
 + g. Obtener resumen de los resultados
@@ -445,11 +422,9 @@ Se siguen los pasos que en el punto anterior
 > results_genotype <- results_genotype$table
 
 
-
 + h. Obtener genes expresados diferencialmente por medio de cultivo
 > ids_genotype <- rownames(results_genotype)
 > ids_genotype <- ids_genotype[results_genotype$FDR < .1]
-
 
 
 ***
@@ -482,12 +457,16 @@ _Comando para creación de un documento PDF con gráfico de expresión diferenci
 > par(mfrow = c(1,2))
 
 
+
 _Comando para la creación de un gráfico de expresión diferencial entre las dos condiciones de medios de cultivo en las muestras Wild Type_
 
 > plot(pseudocounts$WildType_P, pseudocounts$WildType_B, col = ifelse(pseudocounts$DE_C, "red", "blue"), main = "Wild Type", xlab = "Planctonic", ylab = "Biofilm", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 > abline(lsfit(pseudocounts$WildType_P, pseudocounts$WildType_B), col = "black")
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/WT%20ambos%20medios.png "Gráfico WT Medios de cultivo")
+
+El plot muestra en puntos rojos aquellos genes que se encuentran diferencialmente expresados, lo que nos indica que bajo distintas condiciones de medios de cultivo, se activan o se reprimen genes asociados a la respuesta ambiental. 
+
 
 
 
@@ -507,18 +486,14 @@ _Comandos para la creación de gráficos de expresión diferencial entre los gen
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/con%20abline.png "Gráfico WT-Mut Planctonic")
 
 
-
 > plot(pseudocounts$WildType_B, pseudocounts$Mutant_B, col = ifelse(pseudocounts$DE_G, "red", "blue"), main = "Biofilm", xlab = "Wild Type", ylab = "Mutant", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
 > abline(lsfit(pseudocounts$WildType_B, pseudocounts$Mutant_B), col = "black")
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/WTB%20con%20MUTb.png "Gráfico WT-Mut Biofilm")
 
+En los gráficos anteriores se observa ambos genotipos (wild type y mutante o knockout) a las diferentes condiciones experimentales, donde se observan algunos genes que se expresan en ambos genotipos bajo la misma condición, lo que explica que esos genes no se encuentran regulados por el gen Lrs14-like, el cual es el gen en estudio. 
 
 
-> plot(pseudocounts$WildType_P, pseudocounts$WildType_B, col = ifelse(pseudocounts$DE_G, "red", "blue"), main = "WildType", xlab = "Wild Type Planctonic", ylab = " WT BIOFILM", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
-> abline(lsfit(pseudocounts$WildType_P, pseudocounts$WildType_B), col = "black")
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/entre%20wt.png "Gráfico Wild Type")
 
 
 
@@ -544,6 +519,9 @@ _Comandos para la creación de gráficos de histogramas de los genotipos y los m
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/histograma%20genotipo.png "Histograma de Genotipo")
 
 
+En el histograma de medios de cultivo se observa una mayor frecuencia de genes con un p-value significativo, lo que confirma los resultados obtenidos en los plots anteriores. Por el contrario, el histograma de genotipos no presenta una tendencia sino mas bien, genes que en su mayoría, se encuentran con p-values estadísticamente no significativos. 
+
+
 
 + f. Gráfico de P-value vs FDR
 
@@ -566,6 +544,8 @@ _Comandos para la creación de gráficos FDR vs P-value_
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/FDR%20genotipos.png "Plot FDR vs P-Value de Genotipo")
 
+
+El estadístico FDR (False Discovery Rate) determina aquellos falsos positivos dentro de los p-values significativos, por ende al graficar ambos análisis estamos modificando el p-value y restringiendo su valor para obtener un rechazo aceptación de a hipótesis nula mucho mas robusta. 
 
 
 + g. Resumen en Tabla de resultados
