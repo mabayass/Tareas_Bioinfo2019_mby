@@ -25,114 +25,95 @@ A continuacion se enumeran los pasos para realizar el análisis de expresión di
 Comando ejecutado en Unix
 > illuqc -se "GM1598-1_R1_001.fastq" 5 A -onlystat -t 2 -o "GM1598-1_R1" -c 10 &
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-1_R1_001.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
 
 ***
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_avgQual.png "Valor promedio de calidad")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-1_R1_001.fastq_baseCompostion.png "Composición de Bases")
 
 ***
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_baseCompostion.png "Composición de Bases")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-1_R1_001.fastq_gcDistribution.png "Distribucion de Contenido de GC")
 
 ***
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_gcDistribution.png "Distribucion de Contenido de GC")
-
-***
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_qualDistribution.png "Distribución de calidad")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-1_R1_001.fastq_qualDistribution.png "Distribución de calidad")
 
 
 ***
 
 
-* Control de Calidad Muestra **Wild Type B**
+* Control de Calidad Muestra **Input Infectado**
 
 Comando ejecutado en Unix
-> illuqc -se "$RAW/MW001_B3.fastq" 5 A -onlystat -t 2 -o "wild_biofilm" -c 10 &
+> illuqc -se "GM1598-2_R1_001.fastq" 5 A -onlystat -t 2 -o "GM1598-2_R1" -c 10 &
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
-
-***
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_baseCompostion.png "Composición de Bases")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-2_R1_001.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
 
 ***
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_gcDistribution.png "Distribución de Contenido de GC")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-2_R1_001.fastq_baseCompostion.png "Composición de Bases")
 
 ***
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_qualDistribution.png "Distribución de calidad")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-2_R1_001.fastq_gcDistribution.png "Distribucion de Contenido de GC")
 
 ***
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_B3.fastq_summary.png "Resumen de calidad de lecturas")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-2_R1_001.fastq_qualDistribution.png "Distribución de calidad")
 
 
 ***
 
 
-* Control de Calidad Muestra **Mutant P**
+* Control de Calidad Muestra **Pulldown Basal**
 
 Comando ejecutado en Unix
-> illuqc -se "$RAW/0446_P.fastq" 5 A -onlystat -t 2 -o "mut_planctonic" -c 10 &
+> illuqc -se "GM1598-5_R1_001.fastq" 5 A -onlystat -t 2 -o "GM1598-5_R1" -c 10 &
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
-
-***
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_avgQual.png "Valor promedio de calidad")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-5_R1_001.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
 
 ***
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_baseCompostion.png "Composición de Bases")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-5_R1_001.fastq_baseCompostion.png "Composición de Bases")
 
 ***
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_gcDistribution.png "Distribución de Contenido de GC")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-5_R1_001.fastq_gcDistribution.png "Distribucion de Contenido de GC")
 
 ***
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_qualDistribution.png "Distribución de calidad")
-
-***
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_P.fastq_summary.png "Resumen de calidad de lecturas")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-5_R1_001.fastq_qualDistribution.png "Distribución de calidad")
 
 
 ***
 
 
-* Control de Calidad Muestra **Mutant B**
+* Control de Calidad Muestra **Pulldown Infectado**
 
 Comando ejecutado en Unix
-> illuqc -se "$RAW/0446_B3.fastq" 5 A -onlystat -t 2 -o "mut_biofilm" -c 10 &
+> illuqc -se "GM1598-6_R1_001.fastq" 5 A -onlystat -t 2 -o "GM1598-6_R1" -c 10 &
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_B3.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
-
-***
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_B3.fastq_baseCompostion.png "Composición de Bases")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-6_R1_001.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
 
 ***
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_B3.fastq_gcDistribution.png "Distribución de Contenido de GC")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-6_R1_001.fastq_baseCompostion.png "Composición de Bases")
 
 ***
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_B3.fastq_qualDistribution.png "Distribución de calidad")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-6_R1_001.fastq_gcDistribution.png "Distribucion de Contenido de GC")
 
 ***
 
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/0446_B3.fastq_summary.png "Resumen de calidad de lecturas")
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/GM1598-6_R1_001.fastq_qualDistribution.png "Distribución de calidad")
+
 
 ***
 
 ##### CONCLUSIÓN
 
-Todas las muestras genotípicas bajo las distintas condiciones presentan una secuenciación que cumple con los parámetros de calidad. Para el caso del Quality score range vemos que se encuentran dentro del Q30, el cual significa que la probabilidad de que la identificación de casa base secuenciada presente un error de 1 en 1000, el cual cumple con lo establecido para la secuenciación con HiSeq 2500. Tanto el porcentaje de las bases nucleotídicas como la distribucion de CG cumple con lo esperado para muestras de RNA en _archeas_. 
+Todas las muestras bajo las distintas condiciones presentan una secuenciación que cumple con los parámetros de calidad. Para el caso del Quality score range vemos que se encuentran dentro del Q30, el cual significa que la probabilidad de que la identificación de casa base secuenciada presente un error de 1 en 1000, el cual cumple con lo establecido para la secuenciación con HiSeq. Tanto el porcentaje de las bases nucleotídicas como la distribucion de CG cumple con lo esperado para muestras de RNA en _archeas_. 
 
 
 ***
@@ -141,8 +122,6 @@ Todas las muestras genotípicas bajo las distintas condiciones presentan una sec
 
 ### 4. Filtro de secuencias
 *Luego de obtener los resultados del control de calidad de la secuenciación de RNA, las librerías son filtradas con el objetivo de eliminar lecturas con calidad menor de 20 (Q20) en el 80% de la extensión, cuyos resultados genera librerías de lectura que seran utilizadas en el Alineamiento de las secuencias.*
-
-Se crea un nuevo directorio _FIL_ con aquellas carpetas donde se almacenarán los resultados del proceso de filtrado. 
 
 
 * Filtro de secuencias de **Wild Type P**
