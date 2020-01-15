@@ -1,22 +1,4 @@
 
-# GITHUB
-## *Unidad 2 “Organización de un proyecto Bioinformático”*
-
-***
-***
-GitHub es una plataforma informática que permite desarrollar proyectos de códigos fuente mediante un software utilizando el sistema de
-control de versiones Git, siendo una de sus mayores ventajas la capacidad de colaboración de diferentes usuarios sobre un mismo proyecto 
-a distancia. 
-
-Durante las primeras semanas del segundo módulo en el curso avanzado de Tópicos computacionales en Genética y Genómica, se ha trabajado
-en la Unidad 2 y 7 del workshop en github asociado a la materia AliciaMstt/BioinfinvRepro. La Unidad 2 da inicio con un tutorial general
-sobre Markdown, cuyas aplicaciones se insertan en este avance del módulo II. La Unidad 2 permitió la creación de distintos repositorios con el fin de aplicar los conocimientos básicos de los tutoriales, donde encontramos el  [Repositorio 1](https://github.com/mabayass/Tareas_Bioinfo2019_mby) y el [Repositorio 2](https://github.com/mabayass/mirepointro) como los repositorios personales del práctico. A continuación, se observan imágenes del terminal de GitHub donde se aplicaron los comandos otorgados por los tutoriales como _Hello-world_ y _An Intro to Git and GitHub for begginers_.  
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/tutorial%20git%20imagen%201.png "Tutorial GitHub")
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/tutorial%20git%20imagen%202.png)
-
-
 ***
 ***
 
@@ -24,53 +6,24 @@ sobre Markdown, cuyas aplicaciones se insertan en este avance del módulo II. La
 # Expresión Diferencial
 ## *Unidad 7 “Análisis de Expresión diferencial a partir de secuencias de RNA”*
 
-Se desarrolla un análisis bioinformático de expresión diferencial a partir de muestras de *Sulfolobus acidocaldarius* con secuenciación de RNA con HiSeq 2500, en el cual se compararon muestras mutadas y no mutadas en distintos medios de cultivo, lo que permitió determinar genes diferencialmente expresados producto de los diferentes estímulos al que fueron sometidos durante la experimentación, donde el análisis bioinformático cumple un papel importante en la interpretación de estos datos mediante gráficos y tablas.   
-
-Para fines de este práctico, se utilziaron datos de 4 librerías de lecturas de arqueobacterias *Sulfolobus acidocaldarius*, organismo con un único cromosoma circular con 2,225,959 pares de bas, con un contenido de G+C de 36.7%. El gen Lrs14-like, asociado a la formación de biopelículas fue sometido a un *knockdown* para luego exponer los diferentes genotipos a diferentes medios de cultivo y asi poder estudiar los cambios en la expresión génica.
-
+Bajo la importancia que presenta mantener el foco de atención en los estudios del VIH-1 por la incidencia que permanece en nuestra sociedad, se busca profundizar los conocimientos del tema asociando los lncARN y su efecto sobre la replicacion del virus. En este ensayo se pretende llevar a cabo un análisis bioinformático que determine los cambios de expresión de los lncARN bajo dos condiciones: con infección de VIH-1 y en condiciones basales, llevadas a cabo en células J-Lat, es decir, células Jurkat que fueron transformadas con un vector antirretroviral con un corrimiento del marco de lectura y una adición de GFP. Estas células permanecen en latencia hasta su activación con PMA, siendo este un activador de linfocitos T. Ambas condiciones fueron sometidas a un crooslinking con formaldehido y luego incubadas con sondas biotiniladas específicas de ARN viral, y luego purificadas con perlas de estreptavidina (que presentan afinidad por la biotina de las sondas). El extracto purificado se somete a elucion y Proteinasa K para luego secuenciar los ARN remanentes. Las muestras fueron secuenciadas por HiSeq con una lectura de 100 pb paired end realizadas en el servicio de secuenciación de la Universidad Mayor. 
 
 Las muestras fueron identificadas de la siguiente forma:
 
-* Wild type P
-* Wild type B
-* Mutant P
-* Mutant B
+* Input Basal (no infectado)
+* Input Infectado
+* Pulldown Basal (no infectado)
+* Pulldown infectado
 
-A continuación se enumeran los pasos determinados por el tutorial de la Unidad 7 para realizar el análisis de la expresion génica. 
+A continuacion se enumeran los pasos para realizar el análisis de expresión diferencial:
 
-## Pasos tutorial Unidad 7
-
-### 1. Crear variables
-*Carpetas preexistentes que contienen la ubicación de las carpetas que ya se encuentran creadas dentro del directorio home*
-
-RAW=/shared/bioinfo1/common/raw_data/
-
-ANN=/shared/bioinfo1/common/annot/
-
-REF=/shared/bioinfo1/common/ref_genome/
-
-
-
-### 2. Crear carpetas de salida 
-*Carpetas con rutas donde se almacenará información, y que permiten guardar textos producto de los análisis bioinformáticos*
-
-QC=../qc
-
-FIL=../filtered
-
-ALN=../alignment
-
-CNT=../count
-
-
-
-### 3. Control de Calidad 
+### 1. Control de Calidad 
 *Directorios donde se almacena información procesada. Luego se ejecuta el programa IlluQC_PRLL.pl, el cual genera un reporte completo de la calidad de las secuencias. La version PRLL permite ejecutar el comando usando distintos CPU al mismo tiempo. Una vez finalizado el análisis, el programa arroja distintos gráficos que representan la calidad de las lecturas, el contenido GC y otros datos necesarios para el análisis posterior de la secuenciación.* 
 
-* Control de Calidad Muestra **Wild Type P**
+* Control de Calidad Muestra **Input Basal**
 
 Comando ejecutado en Unix
-> illuqc -se "$RAW/MW001_P.fastq" 5 A -onlystat -t 2 -o "wild_planctonic" -c 10 &
+> illuqc -se "GM1598-1_R1_001.fastq" 5 A -onlystat -t 2 -o "GM1598-1_R1" -c 10 &
 
 ![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/MW001_P.fastq_QualRangePerBase.png "Cantidad de lecturas por base")
 
