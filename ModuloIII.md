@@ -169,16 +169,16 @@ Se obtiene una filtración exitosa que genera archivos que permiten alinear las 
 Los comandos llevados a cabo para el alineamiento:
 
 * Muestra **Input Basal** 
-> bwa078 mem "$REF/genome.fasta" -t 1 "GM1598-1_R1_001.fastq_filtered" > "GM1598-1_aligned.sam" &
+> bwa078 mem "Homo_sapiens.GRCh38.96.chr" -t 1 "GM1598-1_R1_001.fastq_filtered" > "GM1598-1_aligned.sam" &
 
 * Muestra **Input Infectado**
-> bwa078 mem "$REF/genome.fasta" -t 1 "GM1598-2_R1_001.fastq_filtered" > "GM1598-2_aligned.sam" &
+> bwa078 mem "Homo_sapiens.GRCh38.96.chr" -t 1 "GM1598-2_R1_001.fastq_filtered" > "GM1598-2_aligned.sam" &
 
 * Muestra **Pulldown Basal**
-> bwa078 mem "$REF/genome.fasta" -t 1 "GM1598-5_R1_001.fastq_filtered" > "GM1598-5_aligned.sam" &
+> bwa078 mem "Homo_sapiens.GRCh38.96.chr" -t 1 "GM1598-5_R1_001.fastq_filtered" > "GM1598-5_aligned.sam" &
 
 * Muestra **Pulldown Infectado**
-> bwa078 mem "$REF/genome.fasta" -t 1 "GM1598-6_R1_001.fastq_filtered" > "GM1598-6_aligned.sam" &
+> bwa078 mem "Homo_sapiens.GRCh38.96.chr" -t 1 "GM1598-6_R1_001.fastq_filtered" > "GM1598-6_aligned.sam" &
 
 Los archivos _.sam_ generados son los archivos de entrada para la estimación de la abundancia mediante el programa HTSeq que se muestra a continuación:
 
@@ -217,289 +217,104 @@ A partir de los comandos ejecutados se obtienen los archivos requeridos para pod
 
 
 ### 7. Análisis de Expresión Diferencial
-El análisis de DE se lleva a cabo en el programa Rstudio
+El análisis de DE se lleva a cabo en el programa R.
 
 #### Preparación de los datos para el análisis de expresión diferencial
-+ a. Crear directorios para almacenar gráficos y tablas de análisis
++ a. cat counts.txt | Rscript deseq1.r 
 
-> input_dir  <- **file.path("/Users/mjgr1/Documents/Master Genetica/Segundo Semestre/Bioinformatica/Unidad III","Count")**
-> output_pseudo <- file.path("..","Count", "pseudocounts")
-> output_histogram <- file.path("..","Count", "histograms")
-> output_pvalue_fdr <- file.path("..","Count", "pvalue_fdr")
-> output_table <- file.path("..","Count", "tables")
++ b. Se leen los argumentos de la linea de comandos
+> args = commandArgs(trailing0nly=TRUE)
+if (lenght(args)!=1) {stop("Experimental design must be specified as: NxM at the command line", call= FALSE)}
+first = args[1]
+if (first == 'install') {source("http://bioconductor.org/biocLite.R")
+   biocLite("DESeq")
+   stop("Installation completed", call.+FALSE)}
 
-Con los comandos mencionados se establece la carpeta donde estan los archivos count emitidos en la estimacion de la abundancia y se crean directorios para crear carpetas de salida donde serán almacenados los gráficos del análisis. 
++ c. Extraer el dise;o experimental de la linea de comando
+design = unlist(strplit(first, 'x'))
 
-+ b. Se crean las carpetas de salida luego de comprobar que las carpetas anteriormente creadas existen
++ d. Encontrar los counts del diseño
+cond1_num = as.integer(desing[1])
+cond2_num = as.integer(desing[2])
 
-> if(!file.exists(input_dir)){stop("Data directory doesn't exist: ", input_dir)}
-> if(!file.exists(output_pseudo)){dir.create(output_pseudo, mode = "0755", recursive=T)}
-> if(!file.exists(output_histogram)){dir.create(output_histogram, mode = "0755", recursive=T)}
-> if(!file.exists(output_pvalue_fdr)){dir.create(output_pvalue_fdr, mode = "0755", recursive=T)}
-> if(!file.exists(output_table)){dir.create(output_table, mode = "0755", recursive=T)}
++ e. Establecer las condiciones basadas en el setup experimental
+cond_1= rep("cond1", cond1_num)
+cond_2 = rep("cond2", cond2_num)
 
-Con los comandos if! se ejecuta una verificación de creación de directorios y se crean entonces las carpetas de salida. 
++ f. Cargar la librería
+library(DESeq)
 
-+ c. Cargar la librería 'edgeR' 
-> library(edgeR)
-> library(ggplot2)
++ g. Cargar la data del archivo
+counts= read.table("stdin", header=TRUE, row.names=1. sep="\t")
 
++ h. Dado que Kallisto genera unos counts estaimados como numeros reales y DESeq1 permite solo numeros enteros se necesita convertir numeros reales en enteros
+int_counts = as.matrix(counts)
+int_counts = apply(int_counts, 2, function(x) as.integer(round(x)))
+row.names(int_counts) <-row.names(counts)
 
-+ d. Lectura de archivos _count_ obtenidos de Linux en el paso del Control de Calidad.
++ i. Reemplazar con counts enteros
+counts <- int_counts
 
-**Wild type planctonic**
-> inputbasal <- read.delim(file=file.path(input_dir, "GM1598-1.count"), sep="\t", header = F, check=F); dim(wild_p);colnames(inputbasal) <- c("Gen_ID", "Count")
++ j. Establecer condiciones
+conditions = factor(c(cond_1, cond_2))
 
-**Wild type biofilm**
-> inputinfectado <- read.delim(file=file.path(input_dir, "GM1598-2.count"), sep="\t", header = F, check=F); dim(wild_b);colnames(inputinfectado) <- c("Gen_ID", "Count")
++ k. Crear una tabla de los counts
+cds = newCountDataSet(counts, conditions)
 
-**Mutant planctonic**
-> pdbasal <- read.delim(file=file.path(input_dir, "GM1598-5.count"), sep="\t", header = F, check=F); dim(mut_p); colnames(pdbasal) <- c("Gen_ID", "Count")
++ l. Estimar tamaño de los factores
+cds = estimateSizeFactors(cds)
 
-**Mutant biofilm**
-> pdinfectado <- read.delim(file=file.path(input_dir, "GM1598-6.count"), sep="\t", header = F, check=F); dim(mut_b); colnames(pdinfectado) <- c("Gen_ID", "Count")
++ m. Estimar dispersiones
+cds = estimateDispersions(cds)
 
++ n. Comparar 
+results = nbiomTest(cds, "cond1", "cond2")
 
++ o. Hacer un sort de la tabla de resultados de las columnas de padj y foldChange
+sorted = results[with(results, order(padj, -foldChange)),]
 
-+ e. Colapsar los datasets
-> rawcounts <- data.frame(inputbasal$Gen_ID, InputBasal = inputbasal$Count, InputInfectado = inputinfectado$Count, PulldownBasal = pdbasal$Count, PulldownInfectado = pdinfectado$Count, row.names = 1)
++ p. Escribir los resultados del standard output
+write.table(sorted, file="", sep="\t", row.name=FALSE, quote=FALSE)
 
++ q. Mantener solo los valores diferencialmente expresados
+diffs <- subset(sorted, padj < 0.05, select=c(id))
 
-+ f. Remover las columnas que no seran usadas en el analisis
-> to_remove <- rownames(rawcounts) %in% c("__no_feature","__ambiguous","__too_low_aQual","__not_aligned","__alignment_not_unique")
++ r. Normalizar los counts y escribir en un archivo
+nc = counts(cds, normalized=TRUE)
 
++ s. Transformarlo en un dataframe para gener nombres de columnas adecuadas
+dt = data.frame("id"=rownames(nc), nc)
 
-+ g. RPKM (Reads per kilobase per million o Lecturas por kilobase por millon)
-> rpkm <- cpm(rawcounts)
++ t. Mantener solo las filas que presentaban expresion diferencial antes
+keep = subset(dt, id %in% diffs$id)
 
++ u. Guardar en la matrix de data normalizada
+write.table(keep, file="norm-matrix-deseq1.txt", sep="\t", row.name=FALSE, col.names=TRUE, quote=FALSE) 
 
-+ h. Establecer las lecturas que serán utilizadas en el análisis y hacer un filtrado
-> keep <- rowSums(rpkm > 1) >= 3 & !to_remove
-> rawcounts <- rawcounts[keep,]
 
 
 ***
 
 
-### Análisis de expresión diferencial por Condicion
+### Gráficos
 
-+ a. Crear vector para muestras agrupadas
-> group_condicion <- c("Basal","Basal","Infectado","Infectado")
++ a. Contar las caracteristicas de cada nombre de  los genes
+> featureCounts --primary -C -t transcript -p -T 12 -g transcript_id -a Homo_sapiens.GRCh38.96.chr.gtf -o countspulldown.txt    pulldowninfeccion_n1.bam pulldowninfeccion_n2.bam pulldownmock_n1.bam pulldownmock_n2.bam  2>> logpulldown.txt
+featureCounts --primary -C -t transcript -p -T 12 -g transcript_id -a Homo_sapiens.GRCh38.96.chr.gtf -o countsinput.txt inputinfeccion_n1.bam inputinfeccion_n2.bam inputmock_n1.bam inputmock_n2.bam 2>> loginput.txt
 
++ b. Simplificar los counts
+> cat countsinput.txt | cut -f 1,7-14 > simple_countsinput.txt
+> cat countspulldown.txt | cut -f 1,7-14 > simple_countspulldown.txt
 
-+ b. Crear un objeto DGE (Expresión génica diferencial)
-> dge_condicion <- DGEList(counts = rawcounts, group = group_condicion)
++ c. Llevar a cabo el análisis de expresión diferencial
+> cat simple_countspulldown.txt | Rscript deseq1.r 2x2 > results_pulldown.txt 2>> log2.txt
 
++ d. Generar  Generate heatmap from the deseq1 normalized matrix
+> cat norm-matrix-deseq1.txt | Rscript draw-heatmap.r > heatmap-norm-matrix-deseq1.pdf  2>> log2.txt
 
-+ c. Normalizar factores por tamaño de librería
-> dge_condicion <- calcNormFactors(dge_condicion)
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/genes%20DE.png "Heatmap Input ")
 
-
-+ d. Estimar dispersion por muestra y por gen
-> dge_condicion <- estimateCommonDisp(dge_condicion)
-> dge_condicion <- estimateTagwiseDisp(dge_condicion)
-
-
-+ e. Hacer el test Exact, cuyo análisis se basa en asumir conteos de distribución binomial negativa
-> de_condicion <- exactTest(dge_condicion, pair = c("Basal","Infectado"))
-
-
-+ f. Obtener resumen de los resultados
-> results_condicion <- topTags(de_condicion, n = nrow(dge_condicion))
-> results_condicion <- results_condicion$table
-
-
-+ g. Obtener ID de genes expresados diferencialmente por condicion
-> ids_condicion <- rownames(results_condicion[results_condicion$FDR < 0.1,])
-
-
-En este paso se lleva a cabo el análisis de expresión diferencial pero es posteriormente que se ejecutan los comandos para hacer gráficos y tablas para poder visualizar los datos
+![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/ModuloIII/genes%20deee.png "Heatmap PullDown")
 
 ***
-
-
-
-### Análisis de expresión diferencial por input/pulldown
-Se siguen los pasos que en el punto anterior
-
-+ a. Crear vector para muestras agrupadas
-> group_entrada <- c("input","input","pulldown","pulldown")
-
-
-+ b. Crear un objeto DGE (Expresión génica diferencial)
-> dge_entrada <- DGEList(counts = rawcounts, group = group_entrada)
-
-
-+ c. Normalizar factores por tamaño de librería
-> dge_entrada <- calcNormFactors(dge_entrada)
-
-
-+ d. Estimar dispersion por muestra y por gen
-> dge_entrada <- estimateCommonDisp(dge_entrada)
-> dge_entrada <- estimateTagwiseDisp(dge_entrada)
-
-
-+ e. Hacer el test Exact, cuyo análisis se basa en asumir conteos de distribución binomial negativa
-> de_entrada <- exactTest(dge_entrada, pair = c("input","pulldown"))
-
-
-+ f. Obtener resumen de los resultados
-> results_entrada <- topTags(de_entrada, n = nrow(dge_entrada))
-> results_entrada <- results_entrada$table
-
-
-+ g. Obtener ID de genes expresados diferencialmente por condicion
-> ids_entrada <- rownames(results_entrada[results_entrada$FDR < 0.1,])
-
-
-+ h. Obtener genes expresados diferencialmente por entrada
-> ids_entrada <- rownames(results_entrada)
-> ids_entrada <- ids_entrada[results_entrada$FDR < .1]
-
-
-***
-
-
-### Generación de resultados
-
-+ a. Establecer vectores Booleans para definir genes con expresion diferencial para ambos factores
-
-**1. Condicion**
-> de_genes_condicion <- rownames(rawcounts) %in% ids_condicion
-
-**2. Entrada**
-> de_genes_entrada <- rownames(rawcounts) %in% ids_entrada
-
-
-
-+ b. Obtener los pseudocounts obtenidos del exact test y transformarlos en escala logarítmica
-> pseudocounts <- data.frame(rownames(rawcounts), InputBasal = log10(dge_condicion$pseudo.counts[,1]), InputInfectado = log10(dge_condicion$pseudo.counts[,2]), PulldownBasal = log10(dge_condicion$pseudo.counts[,3]), PulldownInfectado = log10(dge_condicion$pseudo.counts[,4]), DE_C = de_genes_condicion, DE_G = de_genes_entrada, row.names = 1)
-
-_En este paso se resaltan los genes diferencialmente expresados_ 
-
-
-+ c. Gráficos y archivos PDF con expresión diferencial según **Condicion
-
-_Comando para creación de un documento PDF con gráfico de expresión diferencial entre condiciones_
-
-> pdf(file=file.path(output_pseudo,"pair_expression_condicion.pdf"), width = 8, height = 4)
-> par(mfrow = c(1,2))
-
-
-_Comando para la creación de un gráfico de expresión diferencial entre las dos condiciones de input_
-
-> plot(pseudocounts$InputBasal, pseudocounts$InputInfectado, col = ifelse(pseudocounts$DE_C, "red", "blue"), main = "Input", xlab = "Infectado", ylab = "Basal", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
-> abline(lsfit(pseudocounts$InputBasal, pseudocounts$InputInfectado), col = "black")
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/WT%20ambos%20medios.png "Gráfico WT Medios de cultivo")
-
-El plot muestra en puntos rojos aquellos genes que se encuentran diferencialmente expresados, lo que nos indica que bajo distintas condiciones de medios de cultivo, se activan o se reprimen genes asociados a la respuesta ambiental. 
-
-
-
-
-+ d. Gráficos y archivos PDF con expresión diferencial según **Entrada
-
-_Comando para creación de un documento PDF con gráfico de expresión diferencial entre entradas_
-
-> pdf(file=file.path(output_pseudo,"pair_expression_entrada.pdf"), width = 8, height = 4)
-> par(mfrow = c(1,2))
-
-
-_Comando para la creación de un gráfico de expresión diferencial entre las dos entradas del análisis_
-
-> plot(pseudocounts$PulldownBasal, pseudocounts$PulldownInfectado, col = ifelse(pseudocounts$DE_C, "red", "blue"), main = "Entrada", xlab = "Input", ylab = "Pulldown", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
-> abline(lsfit(pseudocounts$PulldownBasal, pseudocounts$PulldownInfectado), col = "black")
-
-> pdf(file=file.path(output_pseudo,"pair_expression_entrada.pdf"), width = 8, height = 4)
-> par(mfrow = c(1,2))
-
-
-
-_Comandos para la creación de gráficos de expresión diferencial entre las condiciones y las entradas infectado
-
-> plot(pseudocounts$InputInfectado, pseudocounts$PulldownInfectado, col = ifelse(pseudocounts$DE_G, "red", "blue"), main = "Infectado", xlab = "Input", ylab = "Pulldown", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
-> abline(lsfit(pseudocounts$InputInfectado, pseudocounts$PulldownInfectado), col = "black")
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/con%20abline.png "Gráfico WT-Mut Planctonic")
-
-
-_Comandos para la creación de gráficos de expresión diferencial entre las condiciones y las entradas input
-
-> plot(pseudocounts$InputBasal, pseudocounts$PulldownBasal, col = ifelse(pseudocounts$DE_G, "red", "blue"), main = "Basal", xlab = "Input", ylab = "Pulldown", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
-> abline(lsfit(pseudocounts$InputBasal, pseudocounts$PulldownBasal), col = "black")
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/WTB%20con%20MUTb.png "Gráfico WT-Mut Biofilm")
-
-
-
-
-+ e. Creación de Histogramas de los P-values
-
-_Comando para creación de un documento PDF con histograma de P-value_
-
-> pdf(file=file.path(output_histogram,"histograms_pvalue.pdf"), width = 8, height = 4)
-> par(mfrow = c(1,2))
-
-
-_Comandos para la creación de gráficos de histogramas de los genotipos y los medios de cultivo_
-
-**1. Condicion** 
-> hist(x = results_condicion$PValue, col = "skyblue", border = "blue", main = "Condicion", xlab = "P-value", ylab = "Frequency", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2)
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/HISTOGRAMA%20MEDIOS.png "Histograma de Medios de Cultivo")
-
-
-**2. Entrada**
-> hist(x = results_entrada$PValue, col = "skyblue", border = "blue", main = "Entrada", xlab = "P-value", ylab = "Frequency", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2)
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/histograma%20genotipo.png "Histograma de Genotipo")
-
-
-
-+ f. Gráfico de P-value vs FDR
-
-_Comando para creación de un documento PDF con gráfico FDR vs P-value_
-
-> pdf(file=file.path(output_pvalue_fdr, "pvalue_fdr.pdf"), width = 8, height = 4)
-> par(mfrow = c(1,2))
-
-
-_Comandos para la creación de gráficos FDR vs P-value_
-
-**1. Medios de cultivo**
-> plot(results_condicion$PValue, results_condicion$FDR, col = "blue", main = "Condicion", xlab = "P-value", ylab = "FDR", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/FDR%20medios.png "Plot FDR vs P-Value de Medios de Cultivo")
-
-
-**2. Entrada**
-> plot(results_entrada$PValue, results_entrada$FDR, col = "blue", main = "Entrada", xlab = "P-value", ylab = "FDR", cex.main = 1.3, cex.lab = 1.3, cex.axis = 1.2, las = 01)
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/DE/FDR%20genotipos.png "Plot FDR vs P-Value de Genotipo")
-
-
-El estadístico FDR (False Discovery Rate) determina aquellos falsos positivos dentro de los p-values significativos, por ende al graficar ambos análisis estamos modificando el p-value y restringiendo su valor para obtener un rechazo aceptación de a hipótesis nula mucho mas robusta. 
-
-
-+ g. Resumen en Tabla de resultados
-
-**1. Condicion**
-> write.table(x=results_condicion, file=file.path(output_table, "table_de_genes_condicion.csv"), quote=F, sep="\t", dec=".", row.names=T, col.names=T)
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/tabla%20medios.png "Imagen Excel Medio de cultivo")
-
-
-**2. Entrada**
-> write.table(x=results_entrada, file=file.path(output_table, "table_de_genes_entrada.csv"), quote=F, sep="\t", dec=".", row.names=T, col.names=T)
-
-
-![alt text](https://github.com/mabayass/Tareas_Bioinfo2019_mby/blob/master/tabla%20genotipo.png "Imagen Excel Genotipo")
-
-
-***
-***
-
-##Conclusión 
-
 
